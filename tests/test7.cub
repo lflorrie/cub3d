@@ -1,0 +1,13 @@
+R 1920 1080
+EA ./resources/block1.jpg
+NO ./resources/block2.xpm
+WE ./resources/block3.xpm
+S ./resources/block4.xpm
+SO ./resources/block5.xpm
+F 255,255,256
+C 0,0,255
+1111111
+1N00001
+1000001
+1000001
+1111111
