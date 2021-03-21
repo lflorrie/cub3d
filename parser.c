@@ -184,7 +184,7 @@ int		is_image(void *mlx, char *pict)
 	mlx_destroy_image(mlx, img);
 	return (1);
 }
-
+#include "mlx.h"
 int		validate_map(t_map *map)
 {
 	void	*mlx;
@@ -192,6 +192,11 @@ int		validate_map(t_map *map)
 	int		w;
 
 	mlx = mlx_init();
+	//
+	w = 1920;
+	h = 1080;
+	//mlx_get_screen_size(mlx, &w, &h);
+	//
 	mlx_get_screen_size(mlx, &w, &h);
 	if (h < map->height)
 		map->height = h;

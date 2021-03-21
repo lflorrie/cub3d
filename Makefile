@@ -1,24 +1,22 @@
-INC=/usr/include
-
-INCLIB=$(INC)/mlx_linux/lib
-
 CC=gcc
-
-CFLAGS= -I$(INC) -O3 -Imlx_linux/ -Wall
-
+CFLAGS =-Wall
 NAME= mlx-test
 SRC = 	my_cub_utils.c \
-		parser.c \
-		#change_image_size.c
-		#show_line.c 
+		change_image_size.c
+		#parser.c \
+		#show_line.c
 	
 OBJ = $(SRC:.c=.o)
 
+# %.o: %.c
+#     $(CC) -Imlx -c $< -o $@
+
 all:$(NAME)
+
 
 $(NAME)	:$(OBJ)
 	$(MAKE) bonus -C libft/
-	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx_linux/ -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
+	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 clean:
 	rm -rf $(OBJ) && $(MAKE) clean -C libft/
