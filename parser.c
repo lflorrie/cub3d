@@ -1,19 +1,17 @@
 #include "my_cub_utils.h"
 #include <fcntl.h>
 
-typedef struct	s_map
+int		ft_array_len(char **arr)
 {
-		int		width;
-		int		height;
-		char	*pict_north;
-		char	*pict_south;
-		char	*pict_west;
-		char	*pict_east;
-		char	*pict_sprite;
-		int		color_floor;
-		int		color_ceil;
-		char	**map;
-}				t_map;
+	int i;
+
+	i = 0;
+	if (arr == NULL)
+		return (i);
+	while (arr[i] != NULL)
+		++i;
+	return (i);
+}
 
 int		proc_r(char *line, t_map *map)
 {
@@ -144,6 +142,7 @@ t_map	init_map()
 	map.pict_east = NULL;
 	map.pict_sprite = NULL;
 	map.map = NULL;
+	map.len_map = 0;
 	return (map);
 }
 
@@ -159,6 +158,15 @@ void	ft_free_map(t_map *map)
 		free (map->pict_east);
 	if (map->pict_sprite != NULL)
 		free (map->pict_sprite);
+	if (map->map != NULL)
+	{
+		while (map->len_map > 0)
+		{
+			free(map->map[map->len_map - 1]);
+			--map->len_map;
+		}
+		free(map->map);
+	}
 }
 
 
@@ -204,6 +212,119 @@ int		validate_map(t_map *map)
 	return (0);
 }
 
+char	**list_to_array(t_list *lst)
+{
+	t_list	*temp;
+	int		size;
+	int		i;
+	char	**arr;
+
+	i = 0;
+	if ((size = ft_lstsize(lst)) == 0)
+		return (NULL);
+	if (!(arr = (char**)malloc(sizeof(char*) * (size + 1))))
+		return (NULL);
+	while (i < size)
+	{
+		arr[i] = (char*)lst->content;
+		temp = lst;
+		lst = lst->next;
+		free(temp);
+		++i;
+	}
+	arr[size] = NULL;
+	return (arr);
+}
+
+int		validate_map_line(char *i, t_list *map)
+{
+	while (*i != '\0')
+	{
+		if (*i != ' ' && *i != '0' && *i != '1' &&
+			*i != 'N' && *i != 'S' && *i != 'W' && *i != 'E')
+		{
+			ft_lstclear(&map, free);
+			printf("Error\nProblems with map. Symbol %c\n", *i);
+			return (1);
+		}
+		++i;
+	}
+	return (0);
+}
+
+char	**create_map(int	fd)
+{
+	t_list	*map;
+	char	*line;
+
+	map = NULL;
+	while (get_next_line(fd, &line) > 0)
+	{
+		if (map == NULL)
+			map = ft_lstnew(line);
+		else
+			ft_lstadd_back(&map, ft_lstnew(line));
+		 if (validate_map_line(line, map))
+		 	return (NULL);
+	}
+	if (line)
+	{
+		ft_lstadd_back(&map, ft_lstnew(line));
+		if (validate_map_line(line, map))
+			return (NULL);
+	}
+	return (list_to_array(map));
+}
+
+void print_map(t_map map)
+{
+	printf("\n--------------------\nPrint_map:\n");
+	printf("R %d %d\n", map.width, map.height);
+	printf("F %X\nC %X\n", map.color_floor, map.color_ceil);
+	printf("NO %s\nSO %s\n", map.pict_north, map.pict_south);
+	printf("WE %s\nEA %s\n", map.pict_west, map.pict_east);
+	printf("S %s\n", map.pict_sprite);
+	if (map.map != NULL)
+		printf("Len = %i\n", map.len_map);
+	for (int j = 0; j < map.len_map; ++j)
+	{
+		printf("%s\n", map.map[j]);
+	}
+}
+
+int		params_initialized(t_map map)
+{
+	if (map.width != 0 && map.height != 0 &&
+	map.pict_north != NULL && map.pict_south != NULL &&
+	map.pict_west != NULL && map.pict_east != NULL &&
+	map.pict_sprite != NULL)
+		return (1);
+	return (0);
+}
+int		validate_map_array(char **arr)
+{
+	int	i;
+	int	j;
+	int	now_max;
+
+	i = 0;
+	now_max = 0;
+	while (arr[i] != NULL)
+	{
+		j = 0;
+		while (arr[i][j] != '\0')
+		{
+			if (j > now_max)
+			{
+				now_max = j;
+				if (arr[i][j] != '1')
+					return (1);
+			}
+		}
+	}
+	return (0);
+}
+
 t_map	parser(int fd)
 {
 	t_map	map;
@@ -232,43 +353,28 @@ t_map	parser(int fd)
 			}
 		if (*iter == 'N' || *iter == 'S' || *iter == 'W' || *iter == 'E')
 			proc_texture(iter, &map);
-		write(1, line, ft_strlen(line));
-		write(1, "\n", 1);
 		free(iter);
 		free(line);
+		line = NULL;
+		if (params_initialized(map))
+			break ;
 	}
-	free(line);
+	if (line)
+		free(line);
 	error += validate_map(&map);
 	if (error)
 	{
-		ft_free_map(&map);
-		exit(1);
+	 	ft_free_map(&map);
+	 	exit(1);
 	}
+	map.map = create_map(fd);
+	map.len_map = ft_array_len(map.map);
+	// if (validate_map_array(map.map))
+	// 	exit(1);
 	return (map);
 }
 
-int		*create_map(char *s)
-{
-	char **map;
-
-	get_next_line( , )
-	if (*s == ' ')
-	if (*s == '1')
-	if (*s == '0')
-	if (*s == '0')
-}
-
-void print_map(t_map map)
-{
-	printf("\n--------------------\nPrint_map:\n");
-	printf("R %d %d\n", map.width, map.height);
-	printf("F %X\nC %X\n", map.color_floor, map.color_ceil);
-	printf("NO %s\nSO %s\n", map.pict_north, map.pict_south);
-	printf("WE %s\nEA %s\n", map.pict_west, map.pict_east);
-	printf("S %s\n", map.pict_sprite);
-}
-
-int main(int argc, char **argv)
+void a(int argc, char **argv)
 {
 	t_map	map;
 	int		fd;
@@ -281,8 +387,14 @@ int main(int argc, char **argv)
 			exit (1);
 		}
 		map = parser(fd);
+
 		print_map(map);
 		ft_free_map(&map);
 	}
+}
+
+int main(int argc, char **argv)
+{
+	a(argc, argv);
 	return (0);
 }

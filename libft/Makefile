@@ -59,7 +59,7 @@ BONUS = ft_lstnew.c \
 NAME = libft.a
 .PHONY:all clean fclean re bonus
 OBJ = $(SRC:.c=.o)
-OBJ_BONUS = $(BONUS:.c=.o)
+OBJ_BONUS = $(BONUS:.c=.o) $(SRC:.c=.o)
 all: $(NAME)
 
 bonus:

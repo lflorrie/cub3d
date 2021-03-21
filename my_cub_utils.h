@@ -27,6 +27,22 @@ typedef struct	s_vars
 	t_image		img;
 }				t_vars;
 
+
+typedef struct  s_map
+{
+        int     width;
+        int     height;
+        char    *pict_north;
+        char    *pict_south;
+        char    *pict_west;
+        char    *pict_east;
+        char    *pict_sprite;
+        int     color_floor;
+        int     color_ceil;
+        char    **map;
+        int     len_map;
+}               t_map;
+
 #define KEY_RIGHT_ARROW 65363
 #define KEY_LEFT_ARROW 65361
 #define KEY_W 119
