@@ -1,20 +1,21 @@
 CC=gcc
-CFLAGS =-Wall
+CFLAGS =-Wall -Wextra
 NAME= mlx-test
 SRC = 	my_cub_utils.c \
-		change_image_size.c
-		#parser.c \
+		hero_parser.c \
+		parser.c \
+		#change_image_size.c
 		#show_line.c
 	
 OBJ = $(SRC:.c=.o)
 
-# %.o: %.c
-#     $(CC) -Imlx -c $< -o $@
+%.o:%.c
+	$(CC) -Imlx -Ilibft -c $< -o $@
 
 all:$(NAME)
 
 
-$(NAME)	:$(OBJ)
+$(NAME):$(OBJ)
 	$(MAKE) bonus -C libft/
 	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx -lmlx -framework OpenGL -framework AppKit
 
@@ -24,6 +25,6 @@ clean:
 fclean: clean
 	rm -rf $(NAME) && $(MAKE) fclean -C libft/
 
-re	: fclean all
+re: fclean all
 
 .PHONY: all clean fclean re

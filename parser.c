@@ -1,6 +1,7 @@
 #include "my_cub_utils.h"
 #include <fcntl.h>
 
+
 int		ft_array_len(char **arr)
 {
 	int i;
@@ -179,12 +180,13 @@ int		is_image(void *mlx, char *pict)
 	img = mlx_xpm_file_to_image(mlx, pict, &w, &h);
 	if (img == NULL)
 	{
+		mlx_destroy_image(mlx, img);
 		return (0);
 	}
 	mlx_destroy_image(mlx, img);
 	return (1);
 }
-#include "mlx.h"
+
 int		validate_map(t_map *map)
 {
 	void	*mlx;
@@ -192,11 +194,6 @@ int		validate_map(t_map *map)
 	int		w;
 
 	mlx = mlx_init();
-	//
-	w = 1920;
-	h = 1080;
-	//mlx_get_screen_size(mlx, &w, &h);
-	//
 	mlx_get_screen_size(mlx, &w, &h);
 	if (h < map->height)
 		map->height = h;
@@ -214,6 +211,7 @@ int		validate_map(t_map *map)
 		return (1);
 	}
 	free(mlx);
+	while (1);
 	return (0);
 }
 
@@ -379,27 +377,21 @@ t_map	parser(int fd)
 	return (map);
 }
 
-void a(int argc, char **argv)
-{
-	t_map	map;
-	int		fd;
+// void a(int argc, char **argv)
+// {
+// 	t_map	map;
+// 	int		fd;
 
-	if (argc == 2)
-	{
-		if ((fd = open(argv[1], O_RDONLY)) == -1)
-		{
-			perror("Failed!\n");
-			exit (1);
-		}
-		map = parser(fd);
+// 	if (argc == 2)
+// 	{
+// 		if ((fd = open(argv[1], O_RDONLY)) == -1)
+// 		{
+// 			perror("Failed!\n");
+// 			exit (1);
+// 		}
+// 		map = parser(fd);
 
-		print_map(map);
-		ft_free_map(&map);
-	}
-}
-
-int main(int argc, char **argv)
-{
-	a(argc, argv);
-	return (0);
-}
+// 		print_map(map);
+// 		ft_free_map(&map);
+// 	}
+// }
