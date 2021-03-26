@@ -211,7 +211,6 @@ int		validate_map(t_map *map)
 		return (1);
 	}
 	free(mlx);
-	while (1);
 	return (0);
 }
 
@@ -377,7 +376,7 @@ t_map	parser(int fd)
 	return (map);
 }
 
-// void a(int argc, char **argv)
+// void main(int argc, char **argv)
 // {
 // 	t_map	map;
 // 	int		fd;
@@ -390,7 +389,7 @@ t_map	parser(int fd)
 // 			exit (1);
 // 		}
 // 		map = parser(fd);
-
+// 		
 // 		print_map(map);
 // 		ft_free_map(&map);
 // 	}
