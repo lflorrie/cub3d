@@ -40,8 +40,9 @@ t_hero	get_hero(t_map map)
 		}
 		++i;
 	}
-	hero.speed_x = 1;
-	hero.speed_y = 1;
+	double a = 0.25;
+	hero.speed_x = a;
+	hero.speed_y = a;
 	hero.plane_x = 0.66;
 	hero.plane_y = 0.66;
 	if (map.map[(int)hero.pos_x][(int)hero.pos_y] == 'N')
@@ -90,18 +91,18 @@ int	key_hook1(int keycode, t_vars *vars)
 	printf("keycode: %i\n", keycode);
 	if (keycode == KEY_W)
     {
-      if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] == '0')
+    	printf("next = %c\n", vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)]);
+      if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
       {
-      	
       	vars->hero.pos_x  += vars->hero.dir_x * vars->hero.speed_x;
       }
-      if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y + vars->hero.dir_y * vars->hero.speed_x)] == '0') vars->hero.pos_y += vars->hero.dir_y * vars->hero.speed_x;
+      if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y + vars->hero.dir_y * vars->hero.speed_x)] != '1') vars->hero.pos_y += vars->hero.dir_y * vars->hero.speed_x;
     }
     //move backwards if no wall behind you
     if (keycode == KEY_S)
     {
-      if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] == '0') vars->hero.pos_x  -= vars->hero.dir_x * vars->hero.speed_x;
-      if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y - vars->hero.dir_y * vars->hero.speed_x)] == '0') vars->hero.pos_y -= vars->hero.dir_y * vars->hero.speed_x;
+      if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1') vars->hero.pos_x  -= vars->hero.dir_x * vars->hero.speed_x;
+      if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y - vars->hero.dir_y * vars->hero.speed_x)] != '1') vars->hero.pos_y -= vars->hero.dir_y * vars->hero.speed_x;
     }
 
     //rotate to the right
@@ -126,9 +127,10 @@ int	key_hook1(int keycode, t_vars *vars)
       vars->hero.plane_x = vars->hero.plane_x * cos(vars->hero.speed_y) - vars->hero.plane_y * sin(vars->hero.speed_y);
       vars->hero.plane_y = old_plane_x * sin(vars->hero.speed_y) + vars->hero.plane_y * cos(vars->hero.speed_y);
   	}
-    raycasting(vars, &vars->hero, &vars->map);
+    raycasting(vars, &vars->map);
 		
     print_hero(vars->hero);
+    return (0);
 }
 void a(int argc, char **argv)
 {
@@ -149,16 +151,19 @@ void a(int argc, char **argv)
 
 		print_map(vars.map);
 		print_hero(vars.hero);
-		
 		init_window(&vars, 800, 800);
+
+		vars.img_frame = init_image(vars.mlx, vars.width, vars.height);
 		vars.img_n = init_image_from_file(vars.mlx, vars.map.pict_north);
 		vars.img_s = init_image_from_file(vars.mlx, vars.map.pict_south);
 		vars.img_e = init_image_from_file(vars.mlx, vars.map.pict_east);
 		vars.img_w = init_image_from_file(vars.mlx, vars.map.pict_west);
 
 		mlx_hook(vars.win, 2, 1L<<0, key_hook1, &vars);
-		raycasting(&vars, &vars.hero, &vars.map);
+		raycasting(&vars, &vars.map);
+		
 		mlx_loop(vars.mlx);
+		mlx_destroy_image(vars.mlx , &vars.img_frame);
 		ft_free_map(&vars.map);
 	}
 }

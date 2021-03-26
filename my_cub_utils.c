@@ -216,7 +216,7 @@ void init_window(t_vars *vars, int w, int h)
 	vars->mlx = mlx_init();
 	vars->width = w;
 	vars->height = h;
-	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "TEST");
+	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "Cub3d_lflorrie");
 }
 
 // int main(void)

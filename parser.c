@@ -363,7 +363,7 @@ t_map	parser(int fd)
 	}
 	if (line)
 		free(line);
-	error += validate_map(&map);
+	//error += validate_map(&map);
 	if (error)
 	{
 	 	ft_free_map(&map);
