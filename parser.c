@@ -1,7 +1,6 @@
 #include "my_cub_utils.h"
 #include <fcntl.h>
 
-
 int		ft_array_len(char **arr)
 {
 	int i;
