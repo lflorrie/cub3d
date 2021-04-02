@@ -1,16 +1,16 @@
               NO     ./resources/block2.xpm
 SO ./resources/block7.xpm   
         EA           ./resources/block1.xpm          
-WE  ./resources/block6.xpm
-F  220, 100,0
+WE  ./anime.xpm
+F  0,66,77
  R  1920  1080
-  C  225,30 ,0
+  C  150, 0,40
 S     ./resources/block4.xpm 
 1111111
 1000001
 1000001
 1000001
-1000001
-1000001
 100S001
+1000001
+1000001
 1111111

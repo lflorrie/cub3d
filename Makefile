@@ -1,11 +1,5 @@
-INC=/usr/include
-
-INCLIB=$(INC)/mlx_linux/lib
-
 CC=gcc
-
-CFLAGS= -I$(INC) -O3 -Imlx_linux/ -Wall
-
+CFLAGS =-Wall -Wextra
 NAME= mlx-test
 SRC = 	my_cub_utils.c \
 		parser.c \
@@ -15,19 +9,18 @@ SRC = 	my_cub_utils.c \
 		proc_r.c \
 		proc_fc.c \
 		#change_image_size.c
-
-
+	
 OBJ = $(SRC:.c=.o)
 
 %.o:%.c
-	$(CC) -Imlx_linux -Ilibft -c $< -o $@
-	
+	$(CC) -Imlx -Ilibft -c $< -o $@
 
 all:$(NAME)
 
-$(NAME)	:$(OBJ)
+
+$(NAME):$(OBJ)
 	$(MAKE) bonus -C libft/
-	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx_linux/ -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd
+	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 clean:
 	rm -rf $(OBJ) && $(MAKE) clean -C libft/
@@ -35,6 +28,6 @@ clean:
 fclean: clean
 	rm -rf $(NAME) && $(MAKE) fclean -C libft/
 
-re	: fclean all
+re: fclean all
 
 .PHONY: all clean fclean re

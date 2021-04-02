@@ -88,21 +88,22 @@ void	print_hero(t_hero hero)
 
 int	key_hook1(int keycode, t_vars *vars)
 {
+	double a = 0;
+
 	printf("keycode: %i\n", keycode);
 	if (keycode == KEY_W)
     {
-    	printf("next = %c\n", vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)]);
-      if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
-      {
-      	vars->hero.pos_x  += vars->hero.dir_x * vars->hero.speed_x;
-      }
-      if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y + vars->hero.dir_y * vars->hero.speed_x)] != '1') vars->hero.pos_y += vars->hero.dir_y * vars->hero.speed_x;
+    	if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x + a)][(int)(vars->hero.pos_y + a)] != '1')
+    	{
+    		vars->hero.pos_x  += vars->hero.dir_x * vars->hero.speed_x;
+    	}
+    	if(vars->map.map[(int)(vars->hero.pos_x + a)][(int)(vars->hero.pos_y + a + vars->hero.dir_y * vars->hero.speed_x + a)] != '1') vars->hero.pos_y += vars->hero.dir_y * vars->hero.speed_x;
     }
     //move backwards if no wall behind you
     if (keycode == KEY_S)
     {
-      if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1') vars->hero.pos_x  -= vars->hero.dir_x * vars->hero.speed_x;
-      if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y - vars->hero.dir_y * vars->hero.speed_x)] != '1') vars->hero.pos_y -= vars->hero.dir_y * vars->hero.speed_x;
+      if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_x * vars->hero.speed_x + a)][(int)(vars->hero.pos_y + a)] != '1') vars->hero.pos_x  -= vars->hero.dir_x * vars->hero.speed_x;
+      if(vars->map.map[(int)(vars->hero.pos_x + a)][(int)(vars->hero.pos_y - vars->hero.dir_y * vars->hero.speed_x + a)] != '1') vars->hero.pos_y -= vars->hero.dir_y * vars->hero.speed_x;
     }
 
     //rotate to the right
@@ -151,7 +152,7 @@ void a(int argc, char **argv)
 
 		print_map(vars.map);
 		print_hero(vars.hero);
-		init_window(&vars, 800, 800);
+		init_window(&vars, 1080, 1920);
 
 		vars.img_frame = init_image(vars.mlx, vars.width, vars.height);
 		vars.img_n = init_image_from_file(vars.mlx, vars.map.pict_north);
