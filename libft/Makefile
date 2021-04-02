@@ -45,7 +45,11 @@ SRC = ft_atoi.c \
 	ft_split.c \
 	ft_tolower.c \
 	ft_toupper.c \
-	get_next_line.c
+	get_next_line.c \
+	ft_count_words.c \
+	ft_array_len.c \
+	ft_free_words.c \
+	ft_list_to_array.c \
 
 BONUS = ft_lstnew.c \
 	ft_lstadd_front.c \

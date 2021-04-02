@@ -114,4 +114,12 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 
 int					get_next_line(int fd, char **line);
 
+int					ft_array_len(char **arr);
+
+int					ft_count_words(const char *s, char c);
+
+void				ft_free_words(char **ar);
+
+char				**ft_list_to_array(t_list *lst);
+
 #endif

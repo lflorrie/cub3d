@@ -1,121 +1,6 @@
 #include "my_cub_utils.h"
 #include <fcntl.h>
 
-int		ft_array_len(char **arr)
-{
-	int i;
-
-	i = 0;
-	if (arr == NULL)
-		return (i);
-	while (arr[i] != NULL)
-		++i;
-	return (i);
-}
-
-int		proc_r(char *line, t_map *map)
-{
-	char	*temp;
-
-	++line;
-	line = ft_strtrim(line, " ");
-	temp = line;
-	map->width = ft_atoi(line);
-	while (ft_isdigit(*line))
-		++line;
-	while (*line == ' ')
-		++line;
-	map->height = ft_atoi(line);
-	while (ft_isdigit(*line))
-		++line;
-	if (map->height <= 0 || map-> width <= 0 || *line != '\0')
-	{
-		free(temp);
-		return (1);
-	}
-	free(temp);
-	return (0);
-}
-
-void	ft_free_words(char **ar)
-{
-	int i;
-
-	i = 0;
-	while (ar[i] != NULL)
-	{
-		free(ar[i]);
-		++i;
-	}
-	free(ar);
-}
-
-static int	ft_count_words(const char *s, char c)
-{
-	int len;
-	int i;
-
-	i = 0;
-	len = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i + 1] == c || s[i + 1] == '\0')
-			++len;
-		++i;
-	}
-	return (len);
-}
-
-int		proc_fc(char *line, t_map *map)
-{
-	char	flag;
-	char	**words;
-	int		i;
-	int		rgb[3];
-	char	*iter;
-
-	i = 0;
-	flag = *line;
-	++line;
-	if (!(words = ft_split(line, ',')) || ft_count_words(line, ',') != 3)
-		return (1);
-	while (words[i] != NULL)
-	{
-		if (i < 3)
-		{
-			line = ft_strtrim(words[i], " ");
-			iter = line;
-			while (*iter)
-			{
-				if (!ft_isdigit(*iter))
-				{
-					ft_free_words(words);
-					free(line);
-					return (1);
-				}
-				iter++;
-			}
-			rgb[i] = ft_atoi(line);
-			free(line);
-		}
-		++i;
-	}
-	ft_free_words(words);
-	if (i != 3)
-		return (1);
-	while (i > 0)
-	{
-		--i;
-		if (rgb[i] < 0 || rgb[i] > 255)
-			return (1);
-	}
-	if (flag == 'F')
-		map->color_floor = create_rgb(rgb[0], rgb[1], rgb[2]);
-	if (flag == 'C')
-		map->color_ceil = create_rgb(rgb[0], rgb[1], rgb[2]);
-	return (0);
-}
-
 void	proc_texture(char *line, t_map *map)
 {
 	if (*line == 'N' && *(line + 1) == 'O')
@@ -130,7 +15,7 @@ void	proc_texture(char *line, t_map *map)
 		map->pict_sprite = ft_strtrim(line + 1, " ");
 }
 
-t_map	init_map()
+t_map	init_map(void)
 {
 	t_map map;
 
@@ -149,15 +34,15 @@ t_map	init_map()
 void	ft_free_map(t_map *map)
 {
 	if (map->pict_north != NULL)
-		free (map->pict_north);
+		free(map->pict_north);
 	if (map->pict_south != NULL)
-		free (map->pict_south);
+		free(map->pict_south);
 	if (map->pict_west != NULL)
-		free (map->pict_west);
+		free(map->pict_west);
 	if (map->pict_east != NULL)
-		free (map->pict_east);
+		free(map->pict_east);
 	if (map->pict_sprite != NULL)
-		free (map->pict_sprite);
+		free(map->pict_sprite);
 	if (map->map != NULL)
 	{
 		while (map->len_map > 0)
@@ -168,7 +53,6 @@ void	ft_free_map(t_map *map)
 		free(map->map);
 	}
 }
-
 
 int		is_image(void *mlx, char *pict)
 {
@@ -213,30 +97,6 @@ int		validate_map(t_map *map)
 	return (0);
 }
 
-char	**list_to_array(t_list *lst)
-{
-	t_list	*temp;
-	int		size;
-	int		i;
-	char	**arr;
-
-	i = 0;
-	if ((size = ft_lstsize(lst)) == 0)
-		return (NULL);
-	if (!(arr = (char**)malloc(sizeof(char*) * (size + 1))))
-		return (NULL);
-	while (i < size)
-	{
-		arr[i] = (char*)lst->content;
-		temp = lst;
-		lst = lst->next;
-		free(temp);
-		++i;
-	}
-	arr[size] = NULL;
-	return (arr);
-}
-
 int		validate_map_line(char *i, t_list *map)
 {
 	while (*i != '\0')
@@ -253,7 +113,7 @@ int		validate_map_line(char *i, t_list *map)
 	return (0);
 }
 
-char	**create_map(int	fd)
+char	**create_map(int fd)
 {
 	t_list	*map;
 	char	*line;
@@ -265,8 +125,8 @@ char	**create_map(int	fd)
 			map = ft_lstnew(line);
 		else
 			ft_lstadd_back(&map, ft_lstnew(line));
-		 if (validate_map_line(line, map))
-		 	return (NULL);
+		if (validate_map_line(line, map))
+			return (NULL);
 	}
 	if (line)
 	{
@@ -274,10 +134,10 @@ char	**create_map(int	fd)
 		if (validate_map_line(line, map))
 			return (NULL);
 	}
-	return (list_to_array(map));
+	return (ft_list_to_array(map));
 }
 
-void print_map(t_map map)
+void	print_map(t_map map)
 {
 	printf("\n--------------------\nPrint_map:\n");
 	printf("R %d %d\n", map.width, map.height);
@@ -302,6 +162,7 @@ int		params_initialized(t_map map)
 		return (1);
 	return (0);
 }
+
 int		validate_map_array(char **arr)
 {
 	int	i;
@@ -345,7 +206,7 @@ t_map	parser(int fd)
 				printf("Error\nScreen resolution not correct.\n");
 				error = 1;
 			}
-		}	
+		}
 		if (*iter == 'F' || *iter == 'C')
 			if (proc_fc(iter, &map))
 			{
@@ -365,8 +226,8 @@ t_map	parser(int fd)
 	//error += validate_map(&map);
 	if (error)
 	{
-	 	ft_free_map(&map);
-	 	exit(1);
+		ft_free_map(&map);
+		exit(1);
 	}
 	map.map = create_map(fd);
 	map.len_map = ft_array_len(map.map);

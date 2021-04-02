@@ -25,22 +25,6 @@ static void	ft_free_all(char **ar)
 	free(ar);
 }
 
-static int	ft_count_words(const char *s, char c)
-{
-	int len;
-	int i;
-
-	i = 0;
-	len = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
-			++len;
-		++i;
-	}
-	return (len);
-}
-
 static void	ages(const char *s, char c, int *start, int *i)
 {
 	*i = 0;

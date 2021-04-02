@@ -12,6 +12,8 @@ SRC = 	my_cub_utils.c \
  		show_line.c \
 		hero_parser.c \
 		raycasting.c \
+		proc_r.c \
+		proc_fc.c \
 		#change_image_size.c
 
 

@@ -91,4 +91,7 @@ void	show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX ,
 
 void	raycasting(t_vars *vars, t_map *map);
 t_map   parser(int fd);
+
+int     proc_r(char *line, t_map *map);
+int     proc_fc(char *line, t_map *map);
 #endif
