@@ -1,13 +1,6 @@
 #include "my_cub_utils.h"
 #include "math.h"
 
-// #define texWidth 64 // must be power of two
-// #define texHeight 64 // must be power of two
-// unsigned buffer[600][800]; // y-coordinate first because it works per scanline
-
-// //1D Zbuffer
-// double ZBuffer[800];
-
 int		calc_texture(t_vars *vars, double perpWallDist, int side, int img_width)
 {
 	double wallX; //where exactly the wall was hit
@@ -25,8 +18,8 @@ int		calc_texture(t_vars *vars, double perpWallDist, int side, int img_width)
 
 void	raycasting(t_vars *vars, t_map *map)
 {
-	for(int x = 0; x <= vars->width; x++)
-	{
+	for(int x = 0; x < vars->width; x++)
+	{   
 		//calculate ray position and direction
 		double cameraX = 2 * x / (double)vars->width - 1; //x-coordinate in camera space
 		vars->hero.ray_dir_x = vars->hero.dir_x + vars->hero.plane_x * cameraX;
@@ -65,13 +58,13 @@ void	raycasting(t_vars *vars, t_map *map)
 		}
 		if(vars->hero.ray_dir_y < 0)
 		{
-		  stepY = -1;
-		  sideDistY = (vars->hero.pos_y - mapY) * deltaDistY;
+			stepY = -1;
+			sideDistY = (vars->hero.pos_y - mapY) * deltaDistY;
 		}
 		else
 		{
-		  stepY = 1;
-		  sideDistY = (mapY + 1.0 - vars->hero.pos_y) * deltaDistY;
+			stepY = 1;
+			sideDistY = (mapY + 1.0 - vars->hero.pos_y) * deltaDistY;
 		}
 		//perform DDA
 		while (hit == 0)
@@ -95,12 +88,13 @@ void	raycasting(t_vars *vars, t_map *map)
 		  	hit = 1;
 		  }
 		}
-
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
 		if(side == 0) perpWallDist = (mapX - vars->hero.pos_x + (1 - stepX) / 2) / vars->hero.ray_dir_x;
 		else          perpWallDist = (mapY - vars->hero.pos_y + (1 - stepY) / 2) / vars->hero.ray_dir_y;
 
 		//Calculate height of line to draw on screen
+		if (perpWallDist == 0)
+			perpWallDist = 0.1;
 		int lineHeight = (int)(vars->height / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
@@ -109,34 +103,35 @@ void	raycasting(t_vars *vars, t_map *map)
 		int drawEnd = lineHeight / 2 + vars->height / 2;
 		if(drawEnd >= vars->height) drawEnd = vars->height - 1;
 		
-		//texturing calculations
-		//calculate value of wallX
+		// texturing calculations
+		// calculate value of wallX
 		int texX;
 
 		if (side == 0)
 		{
-			if (vars->hero.ray_dir_x <= 0)
+			if (vars->hero.ray_dir_x < 0)
 			{
 				texX = calc_texture(vars, perpWallDist, side, vars->img_n.width);
-				show_line(vars, &vars->img_n, drawStart, drawEnd, x, texX, &vars->img_frame);
+				show_line(vars, &vars->img_n, drawStart, drawEnd, x, texX, &vars->img_frame, lineHeight);
 			}
-			if (vars->hero.ray_dir_x >= 0)
+
+			if (vars->hero.ray_dir_x > 0)
 			{
 				texX = calc_texture(vars, perpWallDist, side, vars->img_s.width);
-				show_line(vars, &vars->img_s, drawStart, drawEnd, x, texX, &vars->img_frame);
+				show_line(vars, &vars->img_s, drawStart, drawEnd, x, texX, &vars->img_frame, lineHeight);
 			}
 		}
 		if (side == 1)
 		{
-			if (vars->hero.ray_dir_y <= 0)
+			if (vars->hero.ray_dir_y < 0)
 			{
 				texX = calc_texture(vars, perpWallDist, side, vars->img_w.width);
-				show_line(vars, &vars->img_w, drawStart, drawEnd, x, texX, &vars->img_frame);
+				show_line(vars, &vars->img_w, drawStart, drawEnd, x, texX, &vars->img_frame, lineHeight);
 			}
-			if (vars->hero.ray_dir_y >= 0)
+			if (vars->hero.ray_dir_y > 0)
 			{
 		 		texX = calc_texture(vars, perpWallDist, side, vars->img_e.width);
-		 		show_line(vars, &vars->img_e, drawStart, drawEnd, x, texX, &vars->img_frame);
+		 		show_line(vars, &vars->img_e, drawStart, drawEnd, x, texX, &vars->img_frame, lineHeight);
 			}
 		}
 	}

@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "libft/libft.h"
+#include <fcntl.h>
+#include "math.h"
 
 typedef struct  s_image {
     void        *img;
@@ -63,21 +65,21 @@ typedef struct	s_vars
 }				t_vars;
 
 
-// #define KEY_RIGHT_ARROW 65363
-// #define KEY_LEFT_ARROW 65361
-// #define KEY_W 119
-// #define KEY_S 115
-// #define KEY_A 97
-// #define KEY_D 100
-// #define KEY_ESC 65307
+#define KEY_RIGHT_ARROW 65363
+#define KEY_LEFT_ARROW 65361
+#define KEY_W 119
+#define KEY_S 115
+#define KEY_A 97
+#define KEY_D 100
+#define KEY_ESC 65307
 
-#define KEY_RIGHT_ARROW 124
-#define KEY_LEFT_ARROW 123
-#define KEY_W 13
-#define KEY_S 1
-#define KEY_A 0
-#define KEY_D 2
-#define KEY_ESC 53
+//#define KEY_RIGHT_ARROW 124
+//#define KEY_LEFT_ARROW 123
+//#define KEY_W 13
+//#define KEY_S 1
+//#define KEY_A 0
+//#define KEY_D 2
+//#define KEY_ESC 53
 
 void            my_mlx_pixel_put(t_image *data, int x, int y, int color);
 char            *get_pixel(t_image *data, int x, int y);
@@ -87,11 +89,12 @@ t_image			init_image_from_file(void *mlx, char *path);
 void			print_square(t_image *img, unsigned int color);
 int				create_rgb(int r, int g, int b);
 
-void	show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX ,t_image *result);
+void	show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX ,t_image *result, int lineHeight);
 
 void	raycasting(t_vars *vars, t_map *map);
 t_map   parser(int fd);
-
+t_hero  get_hero(t_map map);
+void    ft_free_map(t_map *map);
 int     proc_r(char *line, t_map *map);
 int     proc_fc(char *line, t_map *map);
 #endif
