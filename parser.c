@@ -1,18 +1,38 @@
 #include "my_cub_utils.h"
 #include <fcntl.h>
 
-void	proc_texture(char *line, t_map *map)
+int		double_initialized(t_map map, char c, char cc)
 {
+	if (c == 'N' && cc == 'O' && map.pict_north != NULL)
+		return (1);
+	if (c == 'S' && cc == 'O' && map.pict_south != NULL)
+		return (1);
+	if (c == 'W' && cc == 'E' && map.pict_west != NULL)
+		return (1);
+	if (c == 'E' && cc == 'A' && map.pict_east != NULL)
+		return (1);
+	if (c == 'S' && cc == ' ' && map.pict_sprite != NULL)
+		return (1);
+	return (0);
+}
+
+int		proc_texture(char *line, t_map *map)
+{
+	if (double_initialized(*map, *line, *(line + 1)))
+		return (1);
 	if (*line == 'N' && *(line + 1) == 'O')
 		map->pict_north = ft_strtrim(line + 2, " ");
-	if (*line == 'S' && *(line + 1) == 'O')
+	else if (*line == 'S' && *(line + 1) == 'O')
 		map->pict_south = ft_strtrim(line + 2, " ");
-	if (*line == 'W' && *(line + 1) == 'E')
+	else if (*line == 'W' && *(line + 1) == 'E')
 		map->pict_west = ft_strtrim(line + 2, " ");
-	if (*line == 'E' && *(line + 1) == 'A')
+	else if (*line == 'E' && *(line + 1) == 'A')
 		map->pict_east = ft_strtrim(line + 2, " ");
-	if (*line == 'S' && *(line + 1) != 'O')
+	else if (*line == 'S' && *(line + 1) != 'O')
 		map->pict_sprite = ft_strtrim(line + 1, " ");
+	else
+		return (1);
+	return (0);
 }
 
 t_map	init_map(void)
@@ -21,6 +41,9 @@ t_map	init_map(void)
 
 	map.width = 0;
 	map.height = 0;
+	map.color_floor = -1;
+	map.color_ceil = -1;
+	
 	map.pict_north = NULL;
 	map.pict_south = NULL;
 	map.pict_west = NULL;
@@ -59,11 +82,9 @@ int		is_image(void *mlx, char *pict)
 	void	*img;
 	int		w;
 	int		h;
-
 	img = mlx_xpm_file_to_image(mlx, pict, &w, &h);
 	if (img == NULL)
 	{
-		mlx_destroy_image(mlx, img);
 		return (0);
 	}
 	mlx_destroy_image(mlx, img);
@@ -101,11 +122,10 @@ int		validate_map_line(char *i, t_list *map)
 {
 	while (*i != '\0')
 	{
-		if (*i != ' ' && *i != '0' && *i != '1' &&
+		if (*i != ' ' && *i != '0' && *i != '1' && *i != '2' &&
 			*i != 'N' && *i != 'S' && *i != 'W' && *i != 'E')
 		{
 			ft_lstclear(&map, free);
-			printf("Error\nProblems with map. Symbol %c\n", *i);
 			return (1);
 		}
 		++i;
@@ -158,99 +178,107 @@ int		params_initialized(t_map map)
 	if (map.width != 0 && map.height != 0 &&
 	map.pict_north != NULL && map.pict_south != NULL &&
 	map.pict_west != NULL && map.pict_east != NULL &&
-	map.pict_sprite != NULL)
+	map.pict_sprite != NULL && map.color_floor != -1 &&
+	map.color_ceil != -1)
 		return (1);
 	return (0);
 }
 
-int		validate_map_array(char **arr)
+int valid_around_space(char **arr, int i, int j, int len)
+{
+	if (i == 0)
+		return (1);
+	if (j == 0)
+		return (1);
+	if (i == len)
+		return (1);
+	if (ft_strlen(arr[i + 1]) < j || ft_strlen(arr[i - 1]) < j)
+		return (1);
+	if (arr[i - 1][j] == ' ')
+		return (1);
+	if (arr[i + 1][j] == ' ')
+		return (1);
+	if (arr[i][j - 1] == ' ')
+		return (1);
+	if (arr[i][j + 1] == ' ')
+		return (1);
+	return (0);
+}
+
+int		validate_map_array(char **arr, int len)
 {
 	int	i;
 	int	j;
-	int	now_max;
 
 	i = 0;
-	now_max = 0;
-	while (arr[i] != NULL)
+	while (i < len)
 	{
 		j = 0;
 		while (arr[i][j] != '\0')
 		{
-			if (j > now_max)
+			if (arr[i][j] == 'N' || arr[i][j] == 'S' ||
+				arr[i][j] == 'E' || arr[i][j] == 'W' ||
+				arr[i][j] == '0' || arr[i][j] == '2')
 			{
-				now_max = j;
-				if (arr[i][j] != '1')
+				if (valid_around_space(arr, i, j, len))
 					return (1);
 			}
+			++j;
 		}
+		++i;
 	}
 	return (0);
 }
 
-t_map	parser(int fd)
+char		*parser(int fd, t_map *map)
 {
-	t_map	map;
 	char	*line;
 	char	*iter;
 	int		error;
 
 	error = 0;
-	map = init_map();
+	*map = init_map();
 	while (get_next_line(fd, &line) > 0 && !error)
 	{
 		iter = ft_strtrim(line, " ");
 		if (*iter == 'R')
 		{
-			if (proc_r(iter, &map))
-			{
-				printf("Error\nScreen resolution not correct.\n");
-				error = 1;
-			}
+			if (proc_r(iter, map))
+				return("Error\nScreen resolution not correct.\n");
 		}
-		if (*iter == 'F' || *iter == 'C')
-			if (proc_fc(iter, &map))
-			{
-				printf("Error\nFloor or ceiling not correct color.\n");
-				error = 1;
-			}
-		if (*iter == 'N' || *iter == 'S' || *iter == 'W' || *iter == 'E')
-			proc_texture(iter, &map);
+		else if (*iter == 'F' || *iter == 'C')
+		{
+			if (proc_fc(iter, map))
+				return("Error\nFloor or ceiling not correct color.\n");
+		}
+		else if (*iter == 'N' || *iter == 'S' || *iter == 'W' || *iter == 'E')
+		{
+			if (proc_texture(iter, map))
+				return ("Error\nProblems with texture\n");
+		}
+		else
+			return ("Error\nNot valid flag\n");
 		free(iter);
 		free(line);
 		line = NULL;
-		if (params_initialized(map))
+		if (params_initialized(*map))
 			break ;
 	}
 	if (line)
 		free(line);
-	//error += validate_map(&map);
+	error += validate_map(map); //may be leaks
 	if (error)
 	{
-		ft_free_map(&map);
+		ft_free_map(map);
 		exit(1);
 	}
-	map.map = create_map(fd);
-	map.len_map = ft_array_len(map.map);
-	// if (validate_map_array(map.map))
-	// 	exit(1);
-	return (map);
+	if ((map->map = create_map(fd)) == NULL)
+		return ("Error\nProblems with map\n");
+	map->len_map = ft_array_len(map->map);
+	if (validate_map_array(map->map, map->len_map))
+	{
+		printf("Error\nMap is not valid.\n"); // Problem with not static len of line
+		exit(1);
+	}
+	return ("");
 }
-
-// void main(int argc, char **argv)
-// {
-// 	t_map	map;
-// 	int		fd;
-
-// 	if (argc == 2)
-// 	{
-// 		if ((fd = open(argv[1], O_RDONLY)) == -1)
-// 		{
-// 			perror("Failed!\n");
-// 			exit (1);
-// 		}
-// 		map = parser(fd);
-// 		
-// 		print_map(map);
-// 		ft_free_map(&map);
-// 	}
-// }

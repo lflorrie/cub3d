@@ -8,45 +8,45 @@
 #include "math.h"
 
 typedef struct  s_image {
-    void        *img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-    int			width;
-    int			height;
+	void        *img;
+	char        *addr;
+	int         bits_per_pixel;
+	int         line_length;
+	int         endian;
+	int			width;
+	int			height;
 
-    int         p_width;
-    int         p_height;
+	int         p_width;
+	int         p_height;
 }               t_image;
 
 typedef struct  s_hero {
-        double  pos_x;
-        double  pos_y;
-        double  dir_x;
-        double  dir_y;
-        double  plane_x;
-        double  plane_y;
-        double  speed_x;
-        double  speed_y;
-        double  ray_dir_x;
-        double  ray_dir_y;
-        
+		double  pos_x;
+		double  pos_y;
+		double  dir_x;
+		double  dir_y;
+		double  plane_x;
+		double  plane_y;
+		double  speed_x;
+		double  speed_y;
+		double  ray_dir_x;
+		double  ray_dir_y;
+		
 }               t_hero;
 
 typedef struct  s_map
 {
-        int     width;
-        int     height;
-        char    *pict_north;
-        char    *pict_south;
-        char    *pict_west;
-        char    *pict_east;
-        char    *pict_sprite;
-        int     color_floor;
-        int     color_ceil;
-        char    **map;
-        int     len_map;
+		int     width;
+		int     height;
+		char    *pict_north;
+		char    *pict_south;
+		char    *pict_west;
+		char    *pict_east;
+		char    *pict_sprite;
+		int     color_floor;
+		int     color_ceil;
+		char    **map;
+		int     len_map;
 }               t_map;
 
 typedef struct	s_vars
@@ -56,12 +56,12 @@ typedef struct	s_vars
 	int			width;
 	int			height;
 	t_image		img_n;
-    t_image     img_s;
-    t_image     img_e;
-    t_image     img_w;
-    t_map       map;
-    t_hero      hero;
-    t_image		img_frame;
+	t_image     img_s;
+	t_image     img_e;
+	t_image     img_w;
+	t_map       map;
+	t_hero      hero;
+	t_image		img_frame;
 }				t_vars;
 
 
@@ -92,7 +92,7 @@ int				create_rgb(int r, int g, int b);
 void	show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX ,t_image *result, int lineHeight);
 
 void	raycasting(t_vars *vars, t_map *map);
-t_map   parser(int fd);
+char	*parser(int fd, t_map *map);
 t_hero  get_hero(t_map map);
 void    ft_free_map(t_map *map);
 int     proc_r(char *line, t_map *map);

@@ -1,0 +1,13 @@
+R 800 800
+EA ./resources/block1.xpm
+NO ./resources/block2.xpm
+WE ./resources/block3.xpm
+S ./resources/block4.xpm
+SO ./resources/block5.xpm
+F 220,100,0
+C 225,30,0
+111111
+100001
+100S01
+100001
+111111

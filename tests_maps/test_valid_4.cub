@@ -1,0 +1,16 @@
+R 1920 1080
+EA ./resources/block6.xpm
+NO ./resources/block6.xpm
+WE ./resources/block6.xpm
+S ./resources/block6.xpm
+SO ./resources/block6.xpm
+F 15,150,30
+C 55,30,150
+11111111111111
+10000000000001
+11111111111101
+10001000100101
+1010001000N101
+10111111111101
+10000000000001
+11111111111111

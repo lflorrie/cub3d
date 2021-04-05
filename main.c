@@ -13,7 +13,7 @@
 #include "my_cub_utils.h"
 int	key_hook(int keycode, t_vars *vars)
 {
-	printf("keycode: %i\n", keycode);
+	// printf("keycode: %i\n", keycode);
 	if (keycode == KEY_W)
 	{
 		if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
@@ -21,7 +21,6 @@ int	key_hook(int keycode, t_vars *vars)
 		if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y + vars->hero.dir_y * vars->hero.speed_x)] != '1')
 			vars->hero.pos_y += vars->hero.dir_y * vars->hero.speed_x;
 	}
-	//move backwards if no wall behind you
 	if (keycode == KEY_S)
 	{
 		if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
@@ -36,7 +35,6 @@ int	key_hook(int keycode, t_vars *vars)
 		if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_y * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
 			vars->hero.pos_x -= vars->hero.dir_y * vars->hero.speed_x;
 	}
-	//move backwards if no wall behind you
 	if (keycode == KEY_D)
 	{
 		if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y - vars->hero.dir_x * vars->hero.speed_x)] != '1')
@@ -44,7 +42,6 @@ int	key_hook(int keycode, t_vars *vars)
 		if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_y * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
 			vars->hero.pos_x += vars->hero.dir_y * vars->hero.speed_x;
 	}
-    //rotate to the right
 	if (keycode == KEY_RIGHT_ARROW)
 	{
 		//both camera direction and camera plane must be rotated
@@ -55,7 +52,6 @@ int	key_hook(int keycode, t_vars *vars)
 		vars->hero.plane_x = vars->hero.plane_x * cos(-vars->hero.speed_y) - vars->hero.plane_y * sin(-vars->hero.speed_y);
 		vars->hero.plane_y = old_plane_x * sin(-vars->hero.speed_y) + vars->hero.plane_y * cos(-vars->hero.speed_y);
     }
-    //rotate to the left
 	if (keycode == KEY_LEFT_ARROW)
 	{
 		//both camera direction and camera plane must be rotated
@@ -68,10 +64,10 @@ int	key_hook(int keycode, t_vars *vars)
 	}
 	if (keycode == KEY_ESC)
 	{
-		mlx_destroy_image(vars->mlx, &(vars->img_frame));
 		mlx_destroy_window(vars->mlx, vars->win);
 		
 		ft_free_map(&vars->map);
+		//mlx_destroy_image(vars-1>mlx, &vars->img_frame);
 		exit(0);
 	}
 	raycasting(vars, &vars->map);
@@ -82,6 +78,7 @@ int main(int argc, char **argv)
 {
 	int		fd;
 	t_vars	vars;
+	char	*errors;
 
 	if (argc == 2)
 	{
@@ -90,7 +87,13 @@ int main(int argc, char **argv)
 			printf("Error!\nFile not exist.\n");
 			exit (1);
 		}
-		vars.map = parser(fd);
+		errors = parser(fd, &vars.map);
+		if (ft_strlen(errors) != 0)
+		{
+			printf(errors);
+			return (1);
+		}
+		// print_map(vars.map);
 		vars.hero = get_hero(vars.map);
 		init_window(&vars, vars.map.width, vars.map.height);
 
@@ -99,7 +102,6 @@ int main(int argc, char **argv)
 		vars.img_s = init_image_from_file(vars.mlx, vars.map.pict_south);
 		vars.img_e = init_image_from_file(vars.mlx, vars.map.pict_east);
 		vars.img_w = init_image_from_file(vars.mlx, vars.map.pict_west);
-		
 		mlx_hook(vars.win, 2, 1L<<0, key_hook, &vars);
 		raycasting(&vars, &vars.map);
 		mlx_loop(vars.mlx);

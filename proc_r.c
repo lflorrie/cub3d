@@ -16,6 +16,8 @@ int		proc_r(char *line, t_map *map)
 {
 	char	*temp;
 
+	if (map->width != 0 || map->height != 0)
+		return (1);
 	++line;
 	line = ft_strtrim(line, " ");
 	temp = line;

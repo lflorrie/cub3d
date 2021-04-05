@@ -1,0 +1,11 @@
+R 800 600
+EA ./resources/block6.xpm
+NO ./resources/block6.xpm
+WE ./resources/block6.xpm
+S ./resources/block6.xpm
+SO ./resources/block6.xpm
+F 15,150,30
+C 55,30,150
+1 1 1
+1 S 1
+1 1 1
