@@ -82,6 +82,7 @@ int		is_image(void *mlx, char *pict)
 	void	*img;
 	int		w;
 	int		h;
+
 	img = mlx_xpm_file_to_image(mlx, pict, &w, &h);
 	if (img == NULL)
 	{

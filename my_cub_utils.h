@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include "math.h"
 
+
 typedef struct  s_image {
 	void        *img;
 	char        *addr;
@@ -34,20 +35,26 @@ typedef struct  s_hero {
 		
 }               t_hero;
 
-typedef struct  s_map
+typedef struct		s_sprite
 {
-		int     width;
-		int     height;
-		char    *pict_north;
-		char    *pict_south;
-		char    *pict_west;
-		char    *pict_east;
-		char    *pict_sprite;
-		int     color_floor;
-		int     color_ceil;
-		char    **map;
-		int     len_map;
-}               t_map;
+	double			x;
+	double			y;
+}					t_sprite;
+
+typedef struct  	s_map
+{
+		int     	width;
+		int     	height;
+		char    	*pict_north;
+		char    	*pict_south;
+		char    	*pict_west;
+		char    	*pict_east;
+		char    	*pict_sprite;
+		int     	color_floor;
+		int     	color_ceil;
+		char    	**map;
+		int     	len_map;
+}               	t_map;
 
 typedef struct	s_vars
 {
@@ -59,6 +66,9 @@ typedef struct	s_vars
 	t_image     img_s;
 	t_image     img_e;
 	t_image     img_w;
+	t_sprite	*sprites;
+	t_image     img_spr;
+	int			num_sprites;
 	t_map       map;
 	t_hero      hero;
 	t_image		img_frame;
@@ -97,4 +107,9 @@ t_hero  get_hero(t_map map);
 void    ft_free_map(t_map *map);
 int     proc_r(char *line, t_map *map);
 int     proc_fc(char *line, t_map *map);
+int		get_num_sprites(t_map map);
+void		init_sprites(t_vars *vars);
+
+void	show_sprite(t_vars *vars, t_image *img, int start, int end, int h, int texX, t_image *result, int lineHeight);
+
 #endif

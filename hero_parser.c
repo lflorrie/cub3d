@@ -64,6 +64,8 @@ t_hero	get_hero(t_map map)
 
 	hero = init_hero();
 	i = 0;
+	printf("%i\n", map.len_map);
+	fflush(stdout);
 	while (i < map.len_map)
 	{
 		j = 0;
@@ -86,12 +88,12 @@ t_hero	get_hero(t_map map)
 	return (hero);
 }
 
-void	print_hero(t_hero hero)
-{
-	printf("\nHERO\n");
-	printf("pos_x: %f pos_y: %f\n", hero.pos_x, hero.pos_y);
-	printf("dir_x: %f dir_y: %f\n", hero.dir_x, hero.dir_y);
-	printf("speed_x: %f speed_y: %f\n", hero.speed_x, hero.speed_y);
-	printf("plane_x: %f plane_y: %f\n\n", hero.plane_x, hero.plane_y);
+// void	print_hero(t_hero hero)
+// {
+// 	printf("\nHERO\n");
+// 	printf("pos_x: %f pos_y: %f\n", hero.pos_x, hero.pos_y);
+// 	printf("dir_x: %f dir_y: %f\n", hero.dir_x, hero.dir_y);
+// 	printf("speed_x: %f speed_y: %f\n", hero.speed_x, hero.speed_y);
+// 	printf("plane_x: %f plane_y: %f\n\n", hero.plane_x, hero.plane_y);
 
-}
+// }

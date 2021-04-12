@@ -15,6 +15,7 @@ SRC = 	my_cub_utils.c \
 		proc_r.c \
 		proc_fc.c \
 		main.c \
+		sprite.c \
 		#change_image_size.c
 
 

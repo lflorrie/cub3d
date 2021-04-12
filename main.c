@@ -95,13 +95,15 @@ int main(int argc, char **argv)
 		}
 		// print_map(vars.map);
 		vars.hero = get_hero(vars.map);
+		init_sprites(&vars);
 		init_window(&vars, vars.map.width, vars.map.height);
-
 		vars.img_frame = init_image(vars.mlx, vars.width, vars.height);
 		vars.img_n = init_image_from_file(vars.mlx, vars.map.pict_north);
 		vars.img_s = init_image_from_file(vars.mlx, vars.map.pict_south);
 		vars.img_e = init_image_from_file(vars.mlx, vars.map.pict_east);
 		vars.img_w = init_image_from_file(vars.mlx, vars.map.pict_west);
+		vars.img_spr = init_image_from_file(vars.mlx, vars.map.pict_sprite);
+		
 		mlx_hook(vars.win, 2, 1L<<0, key_hook, &vars);
 		raycasting(&vars, &vars.map);
 		mlx_loop(vars.mlx);

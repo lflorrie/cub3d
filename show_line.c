@@ -26,3 +26,20 @@ void	show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX, 
 		my_mlx_pixel_put(result, h, i + start, create_rgb(r, g, b));
 	}
 }
+
+void	show_sprite(t_vars *vars, t_image *img, int start, int end, int h, int texX, t_image *result, int lineHeight)
+{
+	double step = 1.0 * img->height / lineHeight;
+	double texPos = (start - vars->height / 1 + lineHeight / 2) * step;
+	for (int i = 0; i <= end - start; ++i)
+	{
+		int texY = (int)texPos ;
+		texPos += step;
+		unsigned char *src = (unsigned char *)get_pixel(img, texX, texY);
+		
+		unsigned char b = src[0];
+		unsigned char g = src[1];
+		unsigned char r = src[2];
+		my_mlx_pixel_put(result, i + start, h, create_rgb(r, g, b));
+	}
+}

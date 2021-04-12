@@ -16,8 +16,17 @@ int		calc_texture(t_vars *vars, double perpWallDist, int side, int img_width)
 	return (texX);
 }
 
+int		create_trgb(int t, int r, int g, int b)
+{
+	return(t << 24 | r << 16 | g << 8 | b);
+}
+
+
 void	raycasting(t_vars *vars, t_map *map)
 {
+
+	double	ZBuffer[vars->width];
+
 	for(int x = 0; x < vars->width; x++)
 	{   
 		//calculate ray position and direction
@@ -72,20 +81,20 @@ void	raycasting(t_vars *vars, t_map *map)
 		  //jump to next map square, OR in x-direction, OR in y-direction
 		  if(sideDistX < sideDistY)
 		  {
-		    sideDistX += deltaDistX;
-		    mapX += stepX;
-		    side = 0;
+			sideDistX += deltaDistX;
+			mapX += stepX;
+			side = 0;
 		  }
 		  else
 		  {
-		    sideDistY += deltaDistY;
-		    mapY += stepY;
-		    side = 1;
+			sideDistY += deltaDistY;
+			mapY += stepY;
+			side = 1;
 		  }
 		  //Check if ray has hit a wall
 		  if((map->map[mapX][mapY]) == '1')
 		  {
-		  	hit = 1;
+			hit = 1;
 		  }
 		}
 		//Calculate distance of perpendicular ray (Euclidean distance will give fisheye effect!)
@@ -130,10 +139,85 @@ void	raycasting(t_vars *vars, t_map *map)
 			}
 			if (vars->hero.ray_dir_y > 0)
 			{
-		 		texX = calc_texture(vars, perpWallDist, side, vars->img_e.width);
-		 		show_line(vars, &vars->img_e, drawStart, drawEnd, x, texX, &vars->img_frame, lineHeight);
+				texX = calc_texture(vars, perpWallDist, side, vars->img_e.width);
+				show_line(vars, &vars->img_e, drawStart, drawEnd, x, texX, &vars->img_frame, lineHeight);
 			}
 		}
+	 	ZBuffer[x] = perpWallDist; //perpendicular distance is used
 	}
+
+	//SPRITES
+	int		spriteOrder[vars->num_sprites];
+	double	spriteDistance[vars->num_sprites];
+
+	for(int i = 0; i < vars->num_sprites; i++)
+	{
+	  spriteOrder[i] = i;
+	  spriteDistance[i] = ((vars->hero.pos_x - vars->sprites[i].x) * (vars->hero.pos_x - vars->sprites[i].x) + (vars->hero.pos_y - vars->sprites[i].y) * (vars->hero.pos_y - vars->sprites[i].y)); //sqrt not taken, unneeded
+	}
+ 	sortSprites(spriteOrder, spriteDistance, vars->num_sprites);
+	for (int i = 0; i < vars->num_sprites; ++i)
+		printf("%i, %f\n", spriteOrder[i], spriteDistance[i]);
+    for(int i = 0; i < vars->num_sprites; i++)
+    {
+      //translate sprite position to relative to camera
+      double spriteX = vars->sprites[spriteOrder[i]].x - vars->hero.pos_x;
+      double spriteY = vars->sprites[spriteOrder[i]].y - vars->hero.pos_y;
+
+      //transform sprite with the inverse camera matrix
+      // [ vars->hero.plane_x   vars->hero.dir_x ] -1                                       [ vars->hero.dir_y      -vars->hero.dir_x ]
+      // [               ]       =  1/(vars->hero.plane_x*vars->hero.dir_y-vars->hero.dir_x*vars->hero.plane_y) *   [                 ]
+      // [ vars->hero.plane_y   vars->hero.dir_y ]                                          [ -vars->hero.plane_y  vars->hero.plane_x ]
+
+      double invDet = 1.0 / (vars->hero.plane_x * vars->hero.dir_y - vars->hero.dir_x * vars->hero.plane_y); //required for correct matrix multiplication
+
+      double transformX = invDet * (vars->hero.dir_y * spriteX - vars->hero.dir_x * spriteY);
+      double transformY = invDet * (-vars->hero.plane_y * spriteX + vars->hero.plane_x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+      int spriteScreenX = (int)((vars->width / 2) * (1 + transformX / transformY));
+
+      //calculate height of the sprite on screen
+      int spriteHeight = abs((int)(vars->height / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStartY = -spriteHeight / 2 + vars->height / 2;
+      if(drawStartY < 0) drawStartY = 0;
+      int drawEndY = spriteHeight / 2 + vars->height / 2;
+      if(drawEndY >= vars->height) drawEndY = vars->height - 1;
+
+      //calculate width of the sprite
+      int spriteWidth = abs((int)(vars->height / (transformY)));
+      int drawStartX = -spriteWidth / 2 + spriteScreenX;
+      if(drawStartX < 0) drawStartX = 0;
+      int drawEndX = spriteWidth / 2 + spriteScreenX;
+      if(drawEndX >= vars->width) drawEndX = vars->width - 1;
+      //loop through every vertical stripe of the sprite on screen
+      for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+      {
+        int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * vars->img_spr.width / spriteWidth) / 256;
+        //the conditions in the if are:
+        //1) it's in front of camera plane so you don't see things behind you
+        //2) it's on the screen (left)
+        //3) it's on the screen (right)
+        //4) ZBuffer, with perpendicular distance
+        if(transformY > 0 && stripe > 0 && stripe < vars->width && transformY < ZBuffer[stripe])
+        for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+        {
+          int d = (y) * 256 - vars->height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+          int texY = ((d * vars->img_spr.height) / spriteHeight) / 256;
+          unsigned char *src = (unsigned char *)get_pixel(&vars->img_spr, texX, texY);
+		
+			unsigned char b = src[0];
+			unsigned char g = src[1];
+			unsigned char r = src[2];
+			unsigned char t = src[3];
+			if (!(r == 0 && g == 0 && b == 0))
+				my_mlx_pixel_put(&vars->img_frame, stripe, y, create_trgb(t, r, g, b));
+			// if (t != 255)
+			// 	my_mlx_pixel_put(&vars->img_frame, stripe, y, create_trgb(t, r, g, b));
+        }
+      }
+    }
+
+
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img_frame.img, 0, 0);
 }
