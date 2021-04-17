@@ -149,25 +149,17 @@ void	raycasting(t_vars *vars, t_map *map)
 	//SPRITES
 	int		spriteOrder[vars->num_sprites];
 	double	spriteDistance[vars->num_sprites];
-
 	for(int i = 0; i < vars->num_sprites; i++)
 	{
 	  spriteOrder[i] = i;
 	  spriteDistance[i] = ((vars->hero.pos_x - vars->sprites[i].x) * (vars->hero.pos_x - vars->sprites[i].x) + (vars->hero.pos_y - vars->sprites[i].y) * (vars->hero.pos_y - vars->sprites[i].y)); //sqrt not taken, unneeded
 	}
  	sortSprites(spriteOrder, spriteDistance, vars->num_sprites);
-	for (int i = 0; i < vars->num_sprites; ++i)
-		printf("%i, %f\n", spriteOrder[i], spriteDistance[i]);
-    for(int i = 0; i < vars->num_sprites; i++)
+    for(int i = vars->num_sprites - 1; i >= 0; i--)
     {
       //translate sprite position to relative to camera
       double spriteX = vars->sprites[spriteOrder[i]].x - vars->hero.pos_x;
       double spriteY = vars->sprites[spriteOrder[i]].y - vars->hero.pos_y;
-
-      //transform sprite with the inverse camera matrix
-      // [ vars->hero.plane_x   vars->hero.dir_x ] -1                                       [ vars->hero.dir_y      -vars->hero.dir_x ]
-      // [               ]       =  1/(vars->hero.plane_x*vars->hero.dir_y-vars->hero.dir_x*vars->hero.plane_y) *   [                 ]
-      // [ vars->hero.plane_y   vars->hero.dir_y ]                                          [ -vars->hero.plane_y  vars->hero.plane_x ]
 
       double invDet = 1.0 / (vars->hero.plane_x * vars->hero.dir_y - vars->hero.dir_x * vars->hero.plane_y); //required for correct matrix multiplication
 
@@ -184,40 +176,33 @@ void	raycasting(t_vars *vars, t_map *map)
       int drawEndY = spriteHeight / 2 + vars->height / 2;
       if(drawEndY >= vars->height) drawEndY = vars->height - 1;
 
-      //calculate width of the sprite
       int spriteWidth = abs((int)(vars->height / (transformY)));
       int drawStartX = -spriteWidth / 2 + spriteScreenX;
       if(drawStartX < 0) drawStartX = 0;
       int drawEndX = spriteWidth / 2 + spriteScreenX;
       if(drawEndX >= vars->width) drawEndX = vars->width - 1;
-      //loop through every vertical stripe of the sprite on screen
       for(int stripe = drawStartX; stripe < drawEndX; stripe++)
       {
         int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * vars->img_spr.width / spriteWidth) / 256;
-        //the conditions in the if are:
-        //1) it's in front of camera plane so you don't see things behind you
-        //2) it's on the screen (left)
-        //3) it's on the screen (right)
-        //4) ZBuffer, with perpendicular distance
         if(transformY > 0 && stripe > 0 && stripe < vars->width && transformY < ZBuffer[stripe])
         for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
         {
           int d = (y) * 256 - vars->height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
           int texY = ((d * vars->img_spr.height) / spriteHeight) / 256;
-          unsigned char *src = (unsigned char *)get_pixel(&vars->img_spr, texX, texY);
-		
+         	if (texY >= 0 && texX >= 0)
+         	{
+          	unsigned char *src = (unsigned char *)get_pixel(&vars->img_spr, texX, texY);
+			
 			unsigned char b = src[0];
 			unsigned char g = src[1];
 			unsigned char r = src[2];
 			unsigned char t = src[3];
-			if (!(r == 0 && g == 0 && b == 0))
-				my_mlx_pixel_put(&vars->img_frame, stripe, y, create_trgb(t, r, g, b));
-			// if (t != 255)
-			// 	my_mlx_pixel_put(&vars->img_frame, stripe, y, create_trgb(t, r, g, b));
+			if (t != 255)
+				my_mlx_pixel_put(&vars->img_frame, stripe, y, create_rgb(r, g, b));
+        	}
         }
-      }
     }
-
+	}
 
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img_frame.img, 0, 0);
 }

@@ -4,7 +4,7 @@ SO ./resources/block6.xpm
 EA ./resources/block6.xpm
 WE ./resources/block6.xpm
 S ./resources/dora.xpm
-F 220,100,0
+F 220,100,256
 C 225,30,0
 111111
 120021

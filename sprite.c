@@ -13,9 +13,6 @@
 #include "my_cub_utils.h"
 #include "stdlib.h"
 
-//sort algorithm
-//sort the sprites based on distance
-
 void	ft_swap_i(int *a, int *b)
 {
 	int temp;

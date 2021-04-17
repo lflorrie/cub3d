@@ -12,10 +12,24 @@
 
 #include "my_cub_utils.h"
 
-void	ft_free_map(t_map *map);
-void print_map(t_map map);
+t_hero		init_hero(void)
+{
+	t_hero hero;
 
-void	set_plane_and_dir(t_hero *hero, t_map map)
+	hero.speed_x = 0;
+	hero.speed_y = 0;
+	hero.plane_x = 0;
+	hero.plane_y = 0;
+	hero.dir_x = 0;
+	hero.dir_y = 0;
+	hero.pos_x = 0;
+	hero.pos_y = 0;
+	hero.ray_dir_x = 0;
+	hero.ray_dir_y = 0;
+	return (hero);
+}
+
+void		set_plane_and_dir(t_hero *hero, t_map map)
 {
 	if (map.map[(int)hero->pos_x][(int)hero->pos_y] == 'N')
 	{
@@ -35,28 +49,11 @@ void	set_plane_and_dir(t_hero *hero, t_map map)
 	if (map.map[(int)hero->pos_x][(int)hero->pos_y] == 'W')
 	{
 		hero->dir_y = -1;
-		hero->plane_x = -((map.width + 0.0) / map.height / 2);;
+		hero->plane_x = -((map.width + 0.0) / map.height / 2);
 	}
 }
 
-t_hero init_hero()
-{
-	t_hero hero;
-
-	hero.speed_x = 0;
-	hero.speed_y = 0;
-	hero.plane_x = 0;
-	hero.plane_y = 0;
-	hero.dir_x = 0;
-	hero.dir_y = 0;
-	hero.pos_x = 0;
-	hero.pos_y = 0;
-	hero.ray_dir_x = 0;
-	hero.ray_dir_y = 0;
-	return (hero);
-}
-
-t_hero	get_hero(t_map map)
+t_hero		get_hero(t_map map)
 {
 	t_hero	hero;
 	int		i;
@@ -71,7 +68,7 @@ t_hero	get_hero(t_map map)
 		j = 0;
 		while (map.map[i][j] != '\0')
 		{
-			if (map.map[i][j] == 'S' || map.map[i][j] == 'N' || 
+			if (map.map[i][j] == 'S' || map.map[i][j] == 'N' ||
 				map.map[i][j] == 'W' || map.map[i][j] == 'E')
 			{
 				hero.pos_x = i + 0.5;
@@ -87,13 +84,3 @@ t_hero	get_hero(t_map map)
 	set_plane_and_dir(&hero, map);
 	return (hero);
 }
-
-// void	print_hero(t_hero hero)
-// {
-// 	printf("\nHERO\n");
-// 	printf("pos_x: %f pos_y: %f\n", hero.pos_x, hero.pos_y);
-// 	printf("dir_x: %f dir_y: %f\n", hero.dir_x, hero.dir_y);
-// 	printf("speed_x: %f speed_y: %f\n", hero.speed_x, hero.speed_y);
-// 	printf("plane_x: %f plane_y: %f\n\n", hero.plane_x, hero.plane_y);
-
-// }
