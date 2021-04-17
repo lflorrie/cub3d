@@ -6,13 +6,12 @@ int		calc_texture(t_vars *vars, t_draw *draws, int img_width)
 	double	wallX;
 	int		texX;
 
-	texX = (int)(wallX * (double)img_width);
 	if (draws->side == 0)
 		wallX = vars->hero.pos_y + draws->perpWallDist * vars->hero.ray_dir_y;
 	else
 		wallX = vars->hero.pos_x + draws->perpWallDist * vars->hero.ray_dir_x;
-	
 	wallX -= floor((wallX));
+	texX = (int)(wallX * (double)img_width);
 	if(draws->side == 0 && vars->hero.ray_dir_x > 0)
 		texX = img_width - texX - 1;
 	if(draws->side == 1 && vars->hero.ray_dir_y < 0)
