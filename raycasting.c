@@ -113,19 +113,15 @@ void	raycasting(t_vars *vars, t_map *map)
 		double cameraX = 2 * x / (double)vars->width - 1; //x-coordinate in camera space
 		vars->hero.ray_dir_x = vars->hero.dir_x + vars->hero.plane_x * cameraX;
 		vars->hero.ray_dir_y = vars->hero.dir_y + vars->hero.plane_y * cameraX;
-
 		draws.mapX = (int)vars->hero.pos_x;
 		draws.mapY = (int)vars->hero.pos_y;
-
 		//length of ray from one x or y-draws.side to next x or y-draws.side
 		draws.deltaDistX = fabs(1 / vars->hero.ray_dir_x);
 		draws.deltaDistY = fabs(1 / vars->hero.ray_dir_y);
-
 		//calculate step and initial sideDist
 		step_and_sidedist(vars, &draws);
 		//perform DDA
 		dda(vars, map, &draws);
-
 		//calculate lowest and highest pixel to fill in current stripe
 		draws.drawStart = -draws.lineHeight / 2 + vars->height / 2;
 		if (draws.drawStart < 0)
@@ -133,11 +129,9 @@ void	raycasting(t_vars *vars, t_map *map)
 		draws.drawEnd = draws.lineHeight / 2 + vars->height / 2;
 		if (draws.drawEnd >= vars->height)
 			draws.drawEnd = vars->height - 1;
-		
 		// texturing calculations
 		// calculate value of wallX
 		draw_walls(vars, &draws, x);
-		
  		ZBuffer[x] = draws.perpWallDist;
 	 	++x;
 	}
