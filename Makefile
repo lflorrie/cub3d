@@ -9,13 +9,17 @@ CFLAGS= -I$(INC) -O3 -Imlx_linux/ -Wall -Wextra -Werror
 NAME= mlx-test
 SRC = 	hero_parser.c \
 		main.c \
+		map_utils.c \
 		my_cub_utils.c \
 		parser.c \
 		proc_fc.c \
+		proc_keys.c \
 		proc_r.c \
+		proc_wasd.c \
 		raycasting.c \
  		show_line.c \
-		sprite.c
+		sprite.c \
+		validate_map.c
 
 
 OBJ = $(SRC:.c=.o)

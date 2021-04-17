@@ -154,7 +154,7 @@ void	raycasting(t_vars *vars, t_map *map)
 	  spriteOrder[i] = i;
 	  spriteDistance[i] = ((vars->hero.pos_x - vars->sprites[i].x) * (vars->hero.pos_x - vars->sprites[i].x) + (vars->hero.pos_y - vars->sprites[i].y) * (vars->hero.pos_y - vars->sprites[i].y)); //sqrt not taken, unneeded
 	}
- 	sortSprites(spriteOrder, spriteDistance, vars->num_sprites);
+ 	sort_sprites(spriteOrder, spriteDistance, vars->num_sprites);
     for(int i = 0; i < vars->num_sprites; i++)
     {
       //translate sprite position to relative to camera

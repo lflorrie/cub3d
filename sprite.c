@@ -31,18 +31,25 @@ void	ft_swap_d(double *a, double *b)
 	*b = temp;
 }
 
-void sortSprites(int* order, double* dist, int amount)
+void	sort_sprites(int *order, double *dist, int amount)
 {
-	for (int i = 0; i < amount - 1; ++i)
+	int i;
+	int j;
+
+	i = 0;
+	while (i < amount - 1)
 	{
-		for (int j = 0; j < amount - i - 1; ++i)
+		j = 0;
+		while (j < amount - i - 1)
 		{
-			if (dist[j] > dist[j + 1])
+			if (dist[j] < dist[j + 1])
 			{
 				ft_swap_i(order + j, order + j + 1);
 				ft_swap_d(dist + j, dist + j + 1);
 			}
+			++j;
 		}
+		++i;
 	}
 }
 

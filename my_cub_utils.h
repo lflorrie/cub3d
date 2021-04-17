@@ -101,12 +101,27 @@ void			show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX
 void			raycasting(t_vars *vars, t_map *map);
 char			*parser(int fd, t_map *map);
 t_hero  		get_hero(t_map map);
+char			**create_map(int fd);
+t_map			init_map(void);
 void    		ft_free_map(t_map *map);
+int				validate_map_line(char *i, t_list *map);
+int				validate_map(t_map *map);
+int				validate_map_array(char **arr, int len);
+int				double_initialized(t_map map, char c, char cc);
+int				params_initialized(t_map map);
 int     		proc_r(char *line, t_map *map);
 int     		proc_fc(char *line, t_map *map);
 int				get_num_sprites(t_map map);
 void			init_sprites(t_vars *vars);
+int				is_image(void *mlx, char *pict);
+void			proc_w(t_vars *vars);
+void			proc_s(t_vars *vars);
+void			proc_a(t_vars *vars);
+void			proc_d(t_vars *vars);
+void			proc_key_r_arrow(t_vars *vars);
+void			proc_key_l_arrow(t_vars *vars);
+void			proc_key_esc(t_vars *vars);
 
 void			show_sprite(t_vars *vars, t_image *img, int start, int end, int h, int texX, t_image *result, int lineHeight);
-void			sortSprites(int* order, double* dist, int amount);
+void			sort_sprites(int *order, double *dist, int amount);
 #endif

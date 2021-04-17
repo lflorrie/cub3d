@@ -11,67 +11,28 @@
 /* ************************************************************************** */
 
 #include "my_cub_utils.h"
-int	key_hook(int keycode, t_vars *vars)
+
+int		key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == KEY_W)
-	{
-		if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
-			vars->hero.pos_x  += vars->hero.dir_x * vars->hero.speed_x;
-		if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y + vars->hero.dir_y * vars->hero.speed_x)] != '1')
-			vars->hero.pos_y += vars->hero.dir_y * vars->hero.speed_x;
-	}
+		proc_w(vars);
 	if (keycode == KEY_S)
-	{
-		if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
-			vars->hero.pos_x  -= vars->hero.dir_x * vars->hero.speed_x;
-		if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y - vars->hero.dir_y * vars->hero.speed_x)] != '1')
-			vars->hero.pos_y -= vars->hero.dir_y * vars->hero.speed_x;
-	}
+		proc_s(vars);
 	if (keycode == KEY_A)
-	{
-		if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y + vars->hero.dir_x * vars->hero.speed_x)] != '1')
-			vars->hero.pos_y += vars->hero.dir_x * vars->hero.speed_x;
-		if(vars->map.map[(int)(vars->hero.pos_x - vars->hero.dir_y * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
-			vars->hero.pos_x -= vars->hero.dir_y * vars->hero.speed_x;
-	}
+		proc_a(vars);
 	if (keycode == KEY_D)
-	{
-		if(vars->map.map[(int)(vars->hero.pos_x)][(int)(vars->hero.pos_y - vars->hero.dir_x * vars->hero.speed_x)] != '1')
-			vars->hero.pos_y -= vars->hero.dir_x * vars->hero.speed_x;
-		if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_y * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
-			vars->hero.pos_x += vars->hero.dir_y * vars->hero.speed_x;
-	}
+		proc_d(vars);
 	if (keycode == KEY_RIGHT_ARROW)
-	{
-		double old_dir_x = vars->hero.dir_x;
-		vars->hero.dir_x = vars->hero.dir_x * cos(-vars->hero.speed_y) - vars->hero.dir_y * sin(-vars->hero.speed_y);
-		vars->hero.dir_y = old_dir_x * sin(-vars->hero.speed_y) + vars->hero.dir_y * cos(-vars->hero.speed_y);
-		double old_plane_x = vars->hero.plane_x;
-		vars->hero.plane_x = vars->hero.plane_x * cos(-vars->hero.speed_y) - vars->hero.plane_y * sin(-vars->hero.speed_y);
-		vars->hero.plane_y = old_plane_x * sin(-vars->hero.speed_y) + vars->hero.plane_y * cos(-vars->hero.speed_y);
-    }
+		proc_key_r_arrow(vars);
 	if (keycode == KEY_LEFT_ARROW)
-	{
-		double old_dir_x = vars->hero.dir_x;
-		vars->hero.dir_x = vars->hero.dir_x * cos(vars->hero.speed_y) - vars->hero.dir_y * sin(vars->hero.speed_y);
-		vars->hero.dir_y = old_dir_x * sin(vars->hero.speed_y) + vars->hero.dir_y * cos(vars->hero.speed_y);
-		double old_plane_x = vars->hero.plane_x;
-		vars->hero.plane_x = vars->hero.plane_x * cos(vars->hero.speed_y) - vars->hero.plane_y * sin(vars->hero.speed_y);
-		vars->hero.plane_y = old_plane_x * sin(vars->hero.speed_y) + vars->hero.plane_y * cos(vars->hero.speed_y);
-	}
+		proc_key_l_arrow(vars);
 	if (keycode == KEY_ESC)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		
-		ft_free_map(&vars->map);
-		//mlx_destroy_image(vars-1>mlx, &vars->img_frame);
-		exit(0);
-	}
+		proc_key_esc(vars);
 	raycasting(vars, &vars->map);
 	return (0);
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	int		fd;
 	t_vars	vars;
@@ -82,7 +43,7 @@ int main(int argc, char **argv)
 		if ((fd = open(argv[1], O_RDONLY)) == -1)
 		{
 			printf("Error!\nFile not exist.\n");
-			exit (1);
+			exit(1);
 		}
 		errors = parser(fd, &vars.map);
 		if (ft_strlen(errors) != 0)
@@ -99,11 +60,10 @@ int main(int argc, char **argv)
 		vars.img_e = init_image_from_file(vars.mlx, vars.map.pict_east);
 		vars.img_w = init_image_from_file(vars.mlx, vars.map.pict_west);
 		vars.img_spr = init_image_from_file(vars.mlx, vars.map.pict_sprite);
-		
-		mlx_hook(vars.win, 2, 1L<<0, key_hook, &vars);
+		mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 		raycasting(&vars, &vars.map);
 		mlx_loop(vars.mlx);
-		mlx_destroy_image(vars.mlx , &vars.img_frame);
+		mlx_destroy_image(vars.mlx, &vars.img_frame);
 		ft_free_map(&vars.map);
 	}
 	return (0);
