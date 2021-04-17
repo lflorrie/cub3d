@@ -15,7 +15,7 @@
 
 void	ft_swap_i(int *a, int *b)
 {
-	int temp;
+	int	temp;
 
 	temp = *a;
 	*a = *b;
@@ -24,7 +24,7 @@ void	ft_swap_i(int *a, int *b)
 
 void	ft_swap_d(double *a, double *b)
 {
-	double temp;
+	double	temp;
 
 	temp = *a;
 	*a = *b;
@@ -33,8 +33,8 @@ void	ft_swap_d(double *a, double *b)
 
 void	sort_sprites(int *order, double *dist, int amount)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < amount - 1)
@@ -53,7 +53,7 @@ void	sort_sprites(int *order, double *dist, int amount)
 	}
 }
 
-int		get_num_sprites(t_map map)
+int	get_num_sprites(t_map map)
 {
 	int		i;
 	int		j;
@@ -75,14 +75,14 @@ int		get_num_sprites(t_map map)
 	return (num_sprites);
 }
 
-void		init_sprites(t_vars *vars)
+void	init_sprites(t_vars *vars)
 {
 	int			i;
 	int			k;
 	int			j;
 
 	vars->num_sprites = get_num_sprites(vars->map);
-	vars->sprites = (t_sprite*)malloc(sizeof(t_sprite) * vars->num_sprites);
+	vars->sprites = (t_sprite *)malloc(sizeof(t_sprite) * vars->num_sprites);
 	if (vars->sprites == NULL)
 		return ;
 	i = 0;

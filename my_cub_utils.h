@@ -71,6 +71,23 @@ typedef struct	s_vars
 	t_image		img_frame;
 }				t_vars;
 
+typedef struct s_draw
+{
+	int			mapX;
+	int			mapY;
+	int			stepX;
+	int			stepY;
+	double		deltaDistX;
+	double		deltaDistY;
+	double		sideDistX;
+	double		sideDistY;
+	int			drawStart;
+	int			drawEnd;
+	int			texX;
+	int			lineHeight;
+	double		perpWallDist;
+	int			side;
+}				t_draw;
 
 // #define KEY_RIGHT_ARROW 65363
 // #define KEY_LEFT_ARROW 65361
@@ -95,7 +112,7 @@ t_image			init_image(void *mlx, int w, int h);
 t_image			init_image_from_file(void *mlx, char *path);
 void			print_square(t_image *img, unsigned int color);
 int				create_rgb(int r, int g, int b);
-void			show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX ,t_image *result, int lineHeight);
+void			show_line(t_vars *vars, t_image *img, t_draw draws, int h);
 void			raycasting(t_vars *vars, t_map *map);
 char			*parser(void *mlx, int fd, t_map *map);
 t_hero			get_hero(t_map map);
@@ -103,7 +120,7 @@ char			**create_map(int fd);
 t_map			init_map(void);
 void			ft_free_map(t_map *map);
 int				validate_map_line(char *i, t_list *map);
-int				validate_map(void *mlx, t_map *map);
+char			*validate_map(void *mlx, t_map *map);
 int				validate_map_array(char **arr, int len);
 int				double_initialized(t_map map, char c, char cc);
 int				params_initialized(t_map map);
@@ -119,6 +136,5 @@ void			proc_d(t_vars *vars);
 void			proc_key_r_arrow(t_vars *vars);
 void			proc_key_l_arrow(t_vars *vars);
 void			proc_key_esc(t_vars *vars);
-void			show_sprite(t_vars *vars, t_image *img, int start, int end, int h, int texX, t_image *result, int lineHeight);
 void			sort_sprites(int *order, double *dist, int amount);
 #endif

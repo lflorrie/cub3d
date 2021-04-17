@@ -12,9 +12,9 @@
 
 #include "my_cub_utils.h"
 
-t_hero		init_hero(void)
+t_hero	init_hero(void)
 {
-	t_hero hero;
+	t_hero	hero;
 
 	hero.speed_x = 0;
 	hero.speed_y = 0;
@@ -29,7 +29,7 @@ t_hero		init_hero(void)
 	return (hero);
 }
 
-void		set_plane_and_dir(t_hero *hero, t_map map)
+void	set_plane_and_dir(t_hero *hero, t_map map)
 {
 	if (map.map[(int)hero->pos_x][(int)hero->pos_y] == 'N')
 	{
@@ -51,9 +51,11 @@ void		set_plane_and_dir(t_hero *hero, t_map map)
 		hero->dir_y = -1;
 		hero->plane_x = -((map.width + 0.0) / map.height / 2);
 	}
+	hero->speed_x = 0.25;
+	hero->speed_y = 0.25;
 }
 
-t_hero		get_hero(t_map map)
+t_hero	get_hero(t_map map)
 {
 	t_hero	hero;
 	int		i;
@@ -77,8 +79,6 @@ t_hero		get_hero(t_map map)
 		}
 		++i;
 	}
-	hero.speed_x = 0.25;
-	hero.speed_y = 0.25;
 	set_plane_and_dir(&hero, map);
 	return (hero);
 }

@@ -65,9 +65,7 @@ int	main(int argc, char **argv)
 		vars.img_spr = init_image_from_file(vars.mlx, vars.map.pict_sprite);
 		mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 		raycasting(&vars, &vars.map);
-		write(1, "OK\n", 3);
 		mlx_loop(vars.mlx);
-		write(1, "OK\n", 3);
 		mlx_destroy_image(vars.mlx, &vars.img_frame);
 		ft_free_map(&vars.map);
 	}

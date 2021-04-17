@@ -2,6 +2,7 @@ CC=gcc
 CFLAGS =-Wall -Wextra
 NAME= mlx-test
 SRC = hero_parser.c \
+		init_mlx_func.c \
 		main.c \
 		map_utils.c \
 		my_cub_utils.c \

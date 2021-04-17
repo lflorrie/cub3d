@@ -77,7 +77,7 @@ void	ft_free_map(t_map *map)
 	}
 }
 
-int	validate_map(void *mlx, t_map *map)
+char	*validate_map(void *mlx, t_map *map)
 {
 	int		h;
 	int		w;
@@ -94,10 +94,9 @@ int	validate_map(void *mlx, t_map *map)
 		|| !is_image(mlx, map->pict_west) || !is_image(mlx, map->pict_east)
 		|| !is_image(mlx, map->pict_sprite))
 	{
-		printf("Error\nProblems with initializating.\n");
-		return (1);
+		return ("Error\nProblems with initializating.\n");
 	}
-	return (0);
+	return (NULL);
 }
 
 int	validate_map_line(char *i, t_list *map)

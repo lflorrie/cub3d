@@ -45,34 +45,63 @@ int	is_image(void *mlx, char *pict)
 	return (1);
 }
 
+char	*pars(char *iter, t_map *map)
+{
+	if (*iter == 'R')
+	{
+		if (proc_r(iter, map))
+			return ("Error\nScreen resolution not correct.\n");
+	}
+	else if (*iter == 'F' || *iter == 'C')
+	{
+		if (proc_fc(iter, map))
+			return ("Error\nFloor or ceiling not correct color.\n");
+	}
+	else if (*iter == 'N' || *iter == 'S' || *iter == 'W' || *iter == 'E')
+	{
+		if (proc_texture(iter, map))
+			return ("Error\nProblems with texture\n");
+	}
+	else
+		return ("Error\nNot valid flag\n");
+	return (NULL);
+}
+
+char	*validate_and_create_map(void *mlx, t_map *map, int fd)
+{
+	char	*err_message;
+
+	err_message = validate_map(mlx, map);
+	if (err_message != NULL)
+	{
+		ft_free_map(map);
+		return ("Error\nMap is not valid.\n");
+	}
+	map->map = create_map(fd);
+	if (map->map == NULL)
+		return ("Error\nProblems with map\n");
+	map->len_map = ft_array_len(map->map);
+	if (validate_map_array(map->map, map->len_map))
+	{
+		ft_free_map(map);
+		return ("Error\nMap is not valid.\n");
+	}
+	return (NULL);
+}
+
 char	*parser(void *mlx, int fd, t_map *map)
 {
 	char	*line;
 	char	*iter;
-	int		error;
+	char	*err_message;
 
-	error = 0;
 	*map = init_map();
-	while (get_next_line(fd, &line) > 0 && !error)
+	while (get_next_line(fd, &line) > 0)
 	{
 		iter = ft_strtrim(line, " ");
-		if (*iter == 'R')
-		{
-			if (proc_r(iter, map))
-				return ("Error\nScreen resolution not correct.\n");
-		}
-		else if (*iter == 'F' || *iter == 'C')
-		{
-			if (proc_fc(iter, map))
-				return ("Error\nFloor or ceiling not correct color.\n");
-		}
-		else if (*iter == 'N' || *iter == 'S' || *iter == 'W' || *iter == 'E')
-		{
-			if (proc_texture(iter, map))
-				return ("Error\nProblems with texture\n");
-		}
-		else
-			return ("Error\nNot valid flag\n");
+		err_message = pars(iter, map);
+		if (err_message)
+			return (err_message);
 		free(iter);
 		free(line);
 		line = NULL;
@@ -81,20 +110,8 @@ char	*parser(void *mlx, int fd, t_map *map)
 	}
 	if (line)
 		free(line);
-	 error += validate_map(mlx, map);
-	if (error)
-	{
-		ft_free_map(map);
-		exit(1);
-	}
-	map->map = create_map(fd);
-	if (map->map == NULL)
-		return ("Error\nProblems with map\n");
-	map->len_map = ft_array_len(map->map);
-	if (validate_map_array(map->map, map->len_map))
-	{
-		printf("Error\nMap is not valid.\n");
-		exit(1);
-	}
+	err_message = validate_and_create_map(mlx, map, fd);
+	if (err_message)
+		return (err_message);
 	return ("");
 }
