@@ -158,22 +158,6 @@ char	**create_map(int fd)
 	return (ft_list_to_array(map));
 }
 
-void	print_map(t_map map)
-{
-	printf("\n--------------------\nPrint_map:\n");
-	printf("R %d %d\n", map.width, map.height);
-	printf("F %X\nC %X\n", map.color_floor, map.color_ceil);
-	printf("NO %s\nSO %s\n", map.pict_north, map.pict_south);
-	printf("WE %s\nEA %s\n", map.pict_west, map.pict_east);
-	printf("S %s\n", map.pict_sprite);
-	if (map.map != NULL)
-		printf("Len = %i\n", map.len_map);
-	for (int j = 0; j < map.len_map; ++j)
-	{
-		printf("%s\n", map.map[j]);
-	}
-}
-
 int		params_initialized(t_map map)
 {
 	if (map.width != 0 && map.height != 0 &&
@@ -236,7 +220,6 @@ char		*parser(int fd, t_map *map)
 	char	*line;
 	char	*iter;
 	int		error;
-
 	error = 0;
 	*map = init_map();
 	while (get_next_line(fd, &line) > 0 && !error)

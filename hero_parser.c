@@ -61,7 +61,6 @@ t_hero		get_hero(t_map map)
 
 	hero = init_hero();
 	i = 0;
-	printf("%i\n", map.len_map);
 	fflush(stdout);
 	while (i < map.len_map)
 	{

@@ -7,16 +7,15 @@ CC=gcc
 CFLAGS= -I$(INC) -O3 -Imlx_linux/ -Wall -Wextra -Werror
 
 NAME= mlx-test
-SRC = 	my_cub_utils.c \
-		parser.c \
- 		show_line.c \
-		hero_parser.c \
-		raycasting.c \
-		proc_r.c \
-		proc_fc.c \
+SRC = 	hero_parser.c \
 		main.c \
-		sprite.c \
-		#change_image_size.c
+		my_cub_utils.c \
+		parser.c \
+		proc_fc.c \
+		proc_r.c \
+		raycasting.c \
+ 		show_line.c \
+		sprite.c
 
 
 OBJ = $(SRC:.c=.o)

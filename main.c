@@ -13,7 +13,6 @@
 #include "my_cub_utils.h"
 int	key_hook(int keycode, t_vars *vars)
 {
-	// printf("keycode: %i\n", keycode);
 	if (keycode == KEY_W)
 	{
 		if(vars->map.map[(int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x)][(int)(vars->hero.pos_y)] != '1')
@@ -44,7 +43,6 @@ int	key_hook(int keycode, t_vars *vars)
 	}
 	if (keycode == KEY_RIGHT_ARROW)
 	{
-		//both camera direction and camera plane must be rotated
 		double old_dir_x = vars->hero.dir_x;
 		vars->hero.dir_x = vars->hero.dir_x * cos(-vars->hero.speed_y) - vars->hero.dir_y * sin(-vars->hero.speed_y);
 		vars->hero.dir_y = old_dir_x * sin(-vars->hero.speed_y) + vars->hero.dir_y * cos(-vars->hero.speed_y);
@@ -54,7 +52,6 @@ int	key_hook(int keycode, t_vars *vars)
     }
 	if (keycode == KEY_LEFT_ARROW)
 	{
-		//both camera direction and camera plane must be rotated
 		double old_dir_x = vars->hero.dir_x;
 		vars->hero.dir_x = vars->hero.dir_x * cos(vars->hero.speed_y) - vars->hero.dir_y * sin(vars->hero.speed_y);
 		vars->hero.dir_y = old_dir_x * sin(vars->hero.speed_y) + vars->hero.dir_y * cos(vars->hero.speed_y);
@@ -93,7 +90,6 @@ int main(int argc, char **argv)
 			printf(errors);
 			return (1);
 		}
-		// print_map(vars.map);
 		vars.hero = get_hero(vars.map);
 		init_sprites(&vars);
 		init_window(&vars, vars.map.width, vars.map.height);

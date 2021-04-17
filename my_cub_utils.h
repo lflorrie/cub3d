@@ -7,33 +7,30 @@
 #include <fcntl.h>
 #include "math.h"
 
-
-typedef struct  s_image {
-	void        *img;
-	char        *addr;
-	int         bits_per_pixel;
-	int         line_length;
-	int         endian;
+typedef struct	s_image {
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
 	int			width;
 	int			height;
-
 	int         p_width;
 	int         p_height;
 }               t_image;
 
-typedef struct  s_hero {
-		double  pos_x;
-		double  pos_y;
-		double  dir_x;
-		double  dir_y;
-		double  plane_x;
-		double  plane_y;
-		double  speed_x;
-		double  speed_y;
-		double  ray_dir_x;
-		double  ray_dir_y;
-		
-}               t_hero;
+typedef struct	s_hero {
+		double	pos_x;
+		double	pos_y;
+		double	dir_x;
+		double	dir_y;
+		double	plane_x;
+		double	plane_y;
+		double	speed_x;
+		double	speed_y;
+		double	ray_dir_x;
+		double	ray_dir_y;
+}				t_hero;
 
 typedef struct		s_sprite
 {
@@ -99,17 +96,17 @@ t_image			init_image_from_file(void *mlx, char *path);
 void			print_square(t_image *img, unsigned int color);
 int				create_rgb(int r, int g, int b);
 
-void	show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX ,t_image *result, int lineHeight);
+void			show_line(t_vars *vars, t_image *img, int start, int end, int h, int texX ,t_image *result, int lineHeight);
 
-void	raycasting(t_vars *vars, t_map *map);
-char	*parser(int fd, t_map *map);
-t_hero  get_hero(t_map map);
-void    ft_free_map(t_map *map);
-int     proc_r(char *line, t_map *map);
-int     proc_fc(char *line, t_map *map);
-int		get_num_sprites(t_map map);
-void		init_sprites(t_vars *vars);
+void			raycasting(t_vars *vars, t_map *map);
+char			*parser(int fd, t_map *map);
+t_hero  		get_hero(t_map map);
+void    		ft_free_map(t_map *map);
+int     		proc_r(char *line, t_map *map);
+int     		proc_fc(char *line, t_map *map);
+int				get_num_sprites(t_map map);
+void			init_sprites(t_vars *vars);
 
-void	show_sprite(t_vars *vars, t_image *img, int start, int end, int h, int texX, t_image *result, int lineHeight);
-
+void			show_sprite(t_vars *vars, t_image *img, int start, int end, int h, int texX, t_image *result, int lineHeight);
+void			sortSprites(int* order, double* dist, int amount);
 #endif
