@@ -32,6 +32,12 @@ int	key_hook(int keycode, t_vars *vars)
 	return (0);
 }
 
+int	ft_close(t_vars *vars)
+{
+	// DESTROY VSE BLIN!
+	exit(0);
+}
+
 int	main(int argc, char **argv)
 {
 	int		fd;
@@ -64,6 +70,7 @@ int	main(int argc, char **argv)
 		vars.img_w = init_image_from_file(vars.mlx, vars.map.pict_west);
 		vars.img_spr = init_image_from_file(vars.mlx, vars.map.pict_sprite);
 		mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
+		mlx_hook(vars.win, 17, 1L << 17, ft_close, &vars);
 		raycasting(&vars, &vars.map);
 		mlx_loop(vars.mlx);
 		mlx_destroy_image(vars.mlx, &vars.img_frame);

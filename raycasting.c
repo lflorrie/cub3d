@@ -75,6 +75,30 @@ void	dda(t_vars *vars, t_map *map, t_draw *draws)
 	draws->lineHeight = (int)(vars->height / draws->perpWallDist);
 }
 
+void	draw_walls(t_vars *vars, t_draw *draws, int x)
+{
+	if (vars->hero.ray_dir_x < 0 && draws->side == 0)
+	{
+		draws->texX = calc_texture(vars, draws, vars->img_n.width);
+		show_line(vars, &vars->img_n, *draws, x);
+	}
+	if (vars->hero.ray_dir_x > 0 && draws->side == 0)
+	{
+		draws->texX = calc_texture(vars, draws, vars->img_s.width);
+		show_line(vars, &vars->img_s, *draws, x);
+	}
+	if (vars->hero.ray_dir_y < 0 && draws->side == 1)
+	{
+		draws->texX = calc_texture(vars, draws, vars->img_w.width);
+		show_line(vars, &vars->img_w, *draws, x);
+	}
+	if (vars->hero.ray_dir_y > 0 && draws->side == 1)
+	{
+		draws->texX = calc_texture(vars, draws, vars->img_e.width);
+		show_line(vars, &vars->img_e, *draws, x);
+	}
+}
+
 void	raycasting(t_vars *vars, t_map *map)
 {
 
@@ -112,35 +136,9 @@ void	raycasting(t_vars *vars, t_map *map)
 		
 		// texturing calculations
 		// calculate value of wallX
-
-		if (draws.side == 0)
-		{
-			if (vars->hero.ray_dir_x < 0)
-			{
-				draws.texX = calc_texture(vars, &draws, vars->img_n.width);
-				show_line(vars, &vars->img_n, draws, x);
-			}
-
-			if (vars->hero.ray_dir_x > 0)
-			{
-				draws.texX = calc_texture(vars, &draws, vars->img_s.width);
-				show_line(vars, &vars->img_s, draws, x);
-			}
-		}
-		if (draws.side == 1)
-		{
-			if (vars->hero.ray_dir_y < 0)
-			{
-				draws.texX = calc_texture(vars, &draws, vars->img_w.width);
-				show_line(vars, &vars->img_w, draws, x);
-			}
-			if (vars->hero.ray_dir_y > 0)
-			{
-				draws.texX = calc_texture(vars, &draws, vars->img_e.width);
-				show_line(vars, &vars->img_e, draws, x);
-			}
-		}
-	 	ZBuffer[x] = draws.perpWallDist;
+		draw_walls(vars, &draws, x);
+		
+ 		ZBuffer[x] = draws.perpWallDist;
 	 	++x;
 	}
 

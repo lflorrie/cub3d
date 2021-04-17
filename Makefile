@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS =-Wall -Wextra
+CFLAGS =-Wall -Wextra -Werror
 NAME= mlx-test
 SRC = hero_parser.c \
 		init_mlx_func.c \
@@ -26,7 +26,7 @@ all:$(NAME)
 
 $(NAME):$(OBJ)
 	$(MAKE) bonus -C libft/
-	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx -lmlx -framework OpenGL -framework AppKit
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJ) -Llibft/ -lft -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 clean:
 	rm -rf $(OBJ) && $(MAKE) clean -C libft/

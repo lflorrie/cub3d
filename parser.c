@@ -100,10 +100,12 @@ char	*parser(void *mlx, int fd, t_map *map)
 	{
 		iter = ft_strtrim(line, " ");
 		err_message = pars(iter, map);
-		if (err_message)
-			return (err_message);
 		free(iter);
 		free(line);
+		if (err_message)
+		{
+			return (err_message);
+		}
 		line = NULL;
 		if (params_initialized(*map))
 			break ;

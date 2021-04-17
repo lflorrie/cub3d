@@ -1,9 +1,9 @@
 R 800 800
-NO ./resources/block6.xpm
-SO ./resources/block6.xpm
+NO ./resources/block5.xpm
+SO ./resources/block3.xpm
 EA ./resources/block6.xpm
-WE ./resources/block6.xpm
-S ./resources/dora.xpm
+WE ./resources/block4.xpm
+S ./resources/Medved-2.xpm
 F 220,100,0
 C 225,30,0
 111111
