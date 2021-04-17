@@ -22,7 +22,8 @@ char	*ft_strdup(const char *str)
 	{
 		++length;
 	}
-	if (!(res = (char*)malloc(sizeof(char) * (length + 1))))
+	res = (char *)malloc(sizeof(char) * (length + 1));
+	if (!res)
 		return (NULL);
 	res[length] = '\0';
 	while (length > 0)

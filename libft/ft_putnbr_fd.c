@@ -14,7 +14,7 @@
 
 static int	ft_pow(int num, int exp)
 {
-	int res;
+	int	res;
 
 	if (exp == 0)
 		return (1);
@@ -50,7 +50,7 @@ static void	ft_nbr(int n, int fd)
 	}
 }
 
-void		ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
 	if (n == -2147483648)
 	{

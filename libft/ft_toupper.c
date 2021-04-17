@@ -12,9 +12,9 @@
 
 int	ft_toupper(int c)
 {
-	if (c >= (int)'a' && c <= (int)'z')
+	if (c >= (int) 'a' && c <= (int) 'z')
 	{
-		return (c - (int)'a' + (int)'A');
+		return (c - (int) 'a' + (int) 'A');
 	}
 	return (c);
 }

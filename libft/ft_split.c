@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-static void	ft_free_all(char **ar)
+static void	*ft_free_all(char **ar)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ar[i] != NULL)
@@ -23,6 +23,7 @@ static void	ft_free_all(char **ar)
 		++i;
 	}
 	free(ar);
+	return (NULL);
 }
 
 static void	ages(const char *s, char c, int *start, int *i)
@@ -34,7 +35,7 @@ static void	ages(const char *s, char c, int *start, int *i)
 		++(*i);
 }
 
-char		**ft_split(const char *s, char c)
+char	**ft_split(const char *s, char c)
 {
 	int		len;
 	int		start;
@@ -45,18 +46,17 @@ char		**ft_split(const char *s, char c)
 	if (s == NULL)
 		return (NULL);
 	len = ft_count_words(s, c);
-	if (!(res = (char**)malloc(sizeof(char*) * (len + 1))))
+	res = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!res)
 		return (NULL);
 	start = 0;
 	j = -1;
 	while (++j < len)
 	{
 		ages(s, c, &start, &i);
-		if (!(res[j] = ft_substr(s, start, i)))
-		{
-			ft_free_all(res);
-			return (NULL);
-		}
+		res[j] = ft_substr(s, start, i);
+		if (!res[j])
+			return (ft_free_all(res));
 		start += i + 1;
 	}
 	res[len] = NULL;

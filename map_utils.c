@@ -38,7 +38,7 @@ char	**create_map(int fd)
 
 t_map	init_map(void)
 {
-	t_map map;
+	t_map	map;
 
 	map.width = 0;
 	map.height = 0;
@@ -77,39 +77,35 @@ void	ft_free_map(t_map *map)
 	}
 }
 
-int		validate_map(t_map *map)
+int	validate_map(void *mlx, t_map *map)
 {
-	void	*mlx;
 	int		h;
 	int		w;
 
-	mlx = mlx_init();
 	mlx_get_screen_size(mlx, &w, &h);
 	if (h < map->height)
 		map->height = h;
 	if (w < map->width)
 		map->width = w;
-	if (map->width == 0 || map->height == 0 || map->pict_north == NULL ||
-		map->pict_south == NULL || map->pict_west == NULL ||
-		map->pict_east == NULL || map->pict_sprite == NULL ||
-		!is_image(mlx, map->pict_north) || !is_image(mlx, map->pict_south) ||
-		!is_image(mlx, map->pict_west) || !is_image(mlx, map->pict_east) ||
-		!is_image(mlx, map->pict_sprite))
+	if (map->width == 0 || map->height == 0 || map->pict_north == NULL
+		|| map->pict_south == NULL || map->pict_west == NULL
+		|| map->pict_east == NULL || map->pict_sprite == NULL
+		|| !is_image(mlx, map->pict_north) || !is_image(mlx, map->pict_south)
+		|| !is_image(mlx, map->pict_west) || !is_image(mlx, map->pict_east)
+		|| !is_image(mlx, map->pict_sprite))
 	{
-		free(mlx);
 		printf("Error\nProblems with initializating.\n");
 		return (1);
 	}
-	free(mlx);
 	return (0);
 }
 
-int		validate_map_line(char *i, t_list *map)
+int	validate_map_line(char *i, t_list *map)
 {
 	while (*i != '\0')
 	{
-		if (*i != ' ' && *i != '0' && *i != '1' && *i != '2' &&
-			*i != 'N' && *i != 'S' && *i != 'W' && *i != 'E')
+		if (*i != ' ' && *i != '0' && *i != '1' && *i != '2'
+			&& *i != 'N' && *i != 'S' && *i != 'W' && *i != 'E')
 		{
 			ft_lstclear(&map, free);
 			return (1);

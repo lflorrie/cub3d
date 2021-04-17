@@ -20,13 +20,15 @@ char	**ft_list_to_array(t_list *lst)
 	char	**arr;
 
 	i = 0;
-	if ((size = ft_lstsize(lst)) == 0)
+	size = ft_lstsize(lst);
+	if (size == 0)
 		return (NULL);
-	if (!(arr = (char**)malloc(sizeof(char*) * (size + 1))))
+	arr = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!arr)
 		return (NULL);
 	while (i < size)
 	{
-		arr[i] = (char*)lst->content;
+		arr[i] = (char *)lst->content;
 		temp = lst;
 		lst = lst->next;
 		free(temp);

@@ -12,7 +12,7 @@
 
 #include "my_cub_utils.h"
 
-int		valid_around_space(char **arr, int i, int j, int len)
+int	valid_around_space(char **arr, int i, int j, int len)
 {
 	if (i == 0)
 		return (1);
@@ -33,7 +33,7 @@ int		valid_around_space(char **arr, int i, int j, int len)
 	return (0);
 }
 
-int		validate_map_array(char **arr, int len)
+int	validate_map_array(char **arr, int len)
 {
 	int	i;
 	int	j;
@@ -58,7 +58,7 @@ int		validate_map_array(char **arr, int len)
 	return (0);
 }
 
-int		double_initialized(t_map map, char c, char cc)
+int	double_initialized(t_map map, char c, char cc)
 {
 	if (c == 'N' && cc == 'O' && map.pict_north != NULL)
 		return (1);
@@ -73,13 +73,13 @@ int		double_initialized(t_map map, char c, char cc)
 	return (0);
 }
 
-int		params_initialized(t_map map)
+int	params_initialized(t_map map)
 {
-	if (map.width != 0 && map.height != 0 &&
-	map.pict_north != NULL && map.pict_south != NULL &&
-	map.pict_west != NULL && map.pict_east != NULL &&
-	map.pict_sprite != NULL && map.color_floor != -1 &&
-	map.color_ceil != -1)
+	if (map.width != 0 && map.height != 0
+		&& map.pict_north != NULL && map.pict_south != NULL
+		&& map.pict_west != NULL && map.pict_east != NULL
+		&& map.pict_sprite != NULL && map.color_floor != -1
+		&& map.color_ceil != -1)
 		return (1);
 	return (0);
 }

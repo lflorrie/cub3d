@@ -12,9 +12,9 @@
 
 #include "my_cub_utils.h"
 
-int		feel_rgb(char **words, int (*rgb)[3], char **line, char *iter)
+int	feel_rgb(char **words, int (*rgb)[3], char **line, char *iter)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (words[i] != NULL)
@@ -41,7 +41,7 @@ int		feel_rgb(char **words, int (*rgb)[3], char **line, char *iter)
 	return (0);
 }
 
-int		proc_fc(char *line, t_map *map)
+int	proc_fc(char *line, t_map *map)
 {
 	char	flag;
 	char	**words;
@@ -50,10 +50,11 @@ int		proc_fc(char *line, t_map *map)
 
 	flag = *line;
 	++line;
-	if ((flag == 'F' && map->color_floor != -1) ||
-		(flag == 'C' && map->color_ceil != -1))
+	if ((flag == 'F' && map->color_floor != -1)
+		|| (flag == 'C' && map->color_ceil != -1))
 		return (1);
-	if (!(words = ft_split(line, ',')) || ft_count_words(line, ',') != 3)
+	words = ft_split(line, ',');
+	if (!(words) || ft_count_words(line, ',') != 3)
 		return (1);
 	if (feel_rgb(words, &rgb, &line, iter))
 	{

@@ -14,8 +14,8 @@
 
 void	proc_w(t_vars *vars)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = (int)(vars->hero.pos_x + vars->hero.dir_x * vars->hero.speed_x);
 	y = (int)(vars->hero.pos_y);
@@ -29,8 +29,8 @@ void	proc_w(t_vars *vars)
 
 void	proc_s(t_vars *vars)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = (int)(vars->hero.pos_x - vars->hero.dir_x * vars->hero.speed_x);
 	y = (int)(vars->hero.pos_y);
@@ -44,8 +44,8 @@ void	proc_s(t_vars *vars)
 
 void	proc_a(t_vars *vars)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = (int)(vars->hero.pos_x);
 	y = (int)(vars->hero.pos_y + vars->hero.dir_x * vars->hero.speed_x);
@@ -59,8 +59,8 @@ void	proc_a(t_vars *vars)
 
 void	proc_d(t_vars *vars)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = (int)(vars->hero.pos_x);
 	y = (int)(vars->hero.pos_y - vars->hero.dir_x * vars->hero.speed_x);

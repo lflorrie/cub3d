@@ -21,7 +21,7 @@ char	*ft_strtrim(const char *s1, const char *set)
 		return (NULL);
 	end = ft_strlen(s1);
 	if (end == 0)
-		return ((char*)ft_calloc(1, sizeof(char)));
+		return ((char *)ft_calloc(1, sizeof(char)));
 	start = 0;
 	while (start < end && ft_strchr(set, s1[start]))
 	{
@@ -33,7 +33,7 @@ char	*ft_strtrim(const char *s1, const char *set)
 	}
 	if (end - start <= 0)
 	{
-		return ((char*)ft_calloc(1, sizeof(char)));
+		return ((char *)ft_calloc(1, sizeof(char)));
 	}
 	return (ft_substr(s1, start, end - start));
 }

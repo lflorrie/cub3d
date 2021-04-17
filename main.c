@@ -12,7 +12,7 @@
 
 #include "my_cub_utils.h"
 
-int		key_hook(int keycode, t_vars *vars)
+int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == KEY_W)
 		proc_w(vars);
@@ -32,7 +32,7 @@ int		key_hook(int keycode, t_vars *vars)
 	return (0);
 }
 
-int		main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	int		fd;
 	t_vars	vars;
@@ -40,15 +40,18 @@ int		main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		if ((fd = open(argv[1], O_RDONLY)) == -1)
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
 		{
 			printf("Error!\nFile not exist.\n");
 			exit(1);
 		}
-		errors = parser(fd, &vars.map);
+		vars.mlx = mlx_init();
+		errors = parser(vars.mlx, fd, &vars.map);
+		close(fd);
 		if (ft_strlen(errors) != 0)
 		{
-			printf(errors);
+			printf("%s", errors);
 			return (1);
 		}
 		vars.hero = get_hero(vars.map);
@@ -62,7 +65,9 @@ int		main(int argc, char **argv)
 		vars.img_spr = init_image_from_file(vars.mlx, vars.map.pict_sprite);
 		mlx_hook(vars.win, 2, 1L << 0, key_hook, &vars);
 		raycasting(&vars, &vars.map);
+		write(1, "OK\n", 3);
 		mlx_loop(vars.mlx);
+		write(1, "OK\n", 3);
 		mlx_destroy_image(vars.mlx, &vars.img_frame);
 		ft_free_map(&vars.map);
 	}

@@ -18,10 +18,11 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	size_t	i;
 	char	*p_res;
 
-	if (!(res = (void*)malloc(size * nmemb)))
+	res = (void *)malloc(size * nmemb);
+	if (!res)
 		return (NULL);
 	i = 0;
-	p_res = (char*)res;
+	p_res = (char *)res;
 	while (i < nmemb * size)
 	{
 		p_res[i] = 0;

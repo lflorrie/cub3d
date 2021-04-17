@@ -12,7 +12,7 @@
 
 #include "my_cub_utils.h"
 
-int		proc_r(char *line, t_map *map)
+int	proc_r(char *line, t_map *map)
 {
 	char	*temp;
 

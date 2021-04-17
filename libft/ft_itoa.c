@@ -26,7 +26,7 @@ static size_t	len(int n)
 	return (i);
 }
 
-char			*ft_itoa(int nn)
+char	*ft_itoa(int nn)
 {
 	char		*result;
 	size_t		i;
@@ -38,16 +38,16 @@ char			*ft_itoa(int nn)
 	i = len(n);
 	if (n < 0)
 	{
-		++i;
 		sign = 1;
 		n = -n;
 	}
-	if (!(result = (char*)malloc((i) * sizeof(char) + 1)))
+	result = (char *)malloc((i + sign) * sizeof(char) + 1);
+	if (!result)
 		return (NULL);
-	result[i] = '\0';
-	while (i > 0)
+	result[i + sign] = '\0';
+	while (i + sign > 0)
 	{
-		result[--i] = (char)(n % 10 + '0');
+		result[--i + sign] = (char)(n % 10 + '0');
 		n /= 10;
 	}
 	if (sign)

@@ -13,7 +13,7 @@
 #include "my_cub_utils.h"
 #include <fcntl.h>
 
-int		proc_texture(char *line, t_map *map)
+int	proc_texture(char *line, t_map *map)
 {
 	if (double_initialized(*map, *line, *(line + 1)))
 		return (1);
@@ -32,7 +32,7 @@ int		proc_texture(char *line, t_map *map)
 	return (0);
 }
 
-int		is_image(void *mlx, char *pict)
+int	is_image(void *mlx, char *pict)
 {
 	void	*img;
 	int		w;
@@ -40,14 +40,12 @@ int		is_image(void *mlx, char *pict)
 
 	img = mlx_xpm_file_to_image(mlx, pict, &w, &h);
 	if (img == NULL)
-	{
 		return (0);
-	}
 	mlx_destroy_image(mlx, img);
 	return (1);
 }
 
-char	*parser(int fd, t_map *map)
+char	*parser(void *mlx, int fd, t_map *map)
 {
 	char	*line;
 	char	*iter;
@@ -83,13 +81,14 @@ char	*parser(int fd, t_map *map)
 	}
 	if (line)
 		free(line);
-	error += validate_map(map);
+	 error += validate_map(mlx, map);
 	if (error)
 	{
 		ft_free_map(map);
 		exit(1);
 	}
-	if ((map->map = create_map(fd)) == NULL)
+	map->map = create_map(fd);
+	if (map->map == NULL)
 		return ("Error\nProblems with map\n");
 	map->len_map = ft_array_len(map->map);
 	if (validate_map_array(map->map, map->len_map))

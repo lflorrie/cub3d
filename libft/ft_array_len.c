@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-int		ft_array_len(char **arr)
+int	ft_array_len(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arr == NULL)
