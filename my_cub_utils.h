@@ -95,12 +95,38 @@ typedef struct s_draw_sprite
 	int			draw_end_y;
 	int			sprite_screen_x;
 	int			sprite_h;
-	double		transform_y;
+	double		tr_y;
 	int			draw_start_x;
 	int			draw_end_x;
 	int			tex_x;
 	int			tex_y;
 }				t_draw_sprite;
+
+#pragma pack(push, 1)
+typedef struct s_bit_map
+{
+	unsigned short	bf_type;
+	unsigned int	bf_size;
+	unsigned short	bf_reserved1;
+	unsigned short	bf_reserved2;
+	unsigned int	bf_off_bits;
+}				t_bit_map;
+
+typedef struct s_bit_map_inf
+{
+	unsigned		bi_size;
+	unsigned		bi_width;
+	unsigned		bi_height;
+	unsigned short	bi_planes;
+	unsigned short	bi_bit_counts;
+	unsigned		bi_compression;
+	unsigned		bi_size_image;
+	unsigned		bi_x_pels_per_meter;
+	unsigned		bi_y_pels_per_meter;
+	unsigned		bi_clr_used;
+	unsigned		bi_clr_important;
+}					t_bit_map_inf;
+#pragma pack(pop)
 
 // #define KEY_RIGHT_ARROW 65363
 // #define KEY_LEFT_ARROW 65361
@@ -154,4 +180,9 @@ int				calc_texture(t_vars *vars, t_draw *draws, int img_width);
 void			step_and_sidedist(t_vars *vars, t_draw *draws);
 void			dda(t_vars *vars, t_map *map, t_draw *draws);
 void			draw_walls(t_vars *vars, t_draw *draws, int x);
+void			sprite_raycast(t_vars *vars, double *p_buffer);
+void			init_sprite_array(t_vars *vars, int **sprite_order,
+					double **sprite_distance);
+void			destroy_sprite_array(int **sprite_order, double **sprite_distance);
+void			screen_shot(t_vars *vars);
 #endif

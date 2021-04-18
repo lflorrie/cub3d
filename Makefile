@@ -15,6 +15,9 @@ SRC = hero_parser.c \
 		raycasting.c \
  		show_line.c \
 		sprite.c \
+		sprite_utils.c \
+		sprite_array.c \
+		make_bmp_screen_shot.c \
 		validate_map.c
 	
 OBJ = $(SRC:.c=.o)
