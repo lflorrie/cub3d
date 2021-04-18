@@ -73,21 +73,34 @@ typedef struct	s_vars
 
 typedef struct s_draw
 {
-	int			mapX;
-	int			mapY;
-	int			stepX;
-	int			stepY;
-	double		deltaDistX;
-	double		deltaDistY;
-	double		sideDistX;
-	double		sideDistY;
-	int			drawStart;
-	int			drawEnd;
-	int			texX;
-	int			lineHeight;
-	double		perpWallDist;
+	int			map_x;
+	int			map_y;
+	int			step_x;
+	int			step_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	int			draw_start;
+	int			draw_end;
+	int			tex_x;
+	int			line_h;
+	double		perp_wall_dist;
 	int			side;
 }				t_draw;
+
+typedef struct s_draw_sprite
+{
+	int			draw_start_y;
+	int			draw_end_y;
+	int			sprite_screen_x;
+	int			sprite_h;
+	double		transform_y;
+	int			draw_start_x;
+	int			draw_end_x;
+	int			tex_x;
+	int			tex_y;
+}				t_draw_sprite;
 
 // #define KEY_RIGHT_ARROW 65363
 // #define KEY_LEFT_ARROW 65361
@@ -137,4 +150,8 @@ void			proc_key_r_arrow(t_vars *vars);
 void			proc_key_l_arrow(t_vars *vars);
 void			proc_key_esc(t_vars *vars);
 void			sort_sprites(int *order, double *dist, int amount);
+int				calc_texture(t_vars *vars, t_draw *draws, int img_width);
+void			step_and_sidedist(t_vars *vars, t_draw *draws);
+void			dda(t_vars *vars, t_map *map, t_draw *draws);
+void			draw_walls(t_vars *vars, t_draw *draws, int x);
 #endif

@@ -16,26 +16,26 @@ void	show_line(t_vars *vars, t_image *img, t_draw draws, int h)
 {
 	int				i;
 	double			step;
-	double			texPos;
+	double			tex_pos;
 	unsigned char	*src;
-	int				texY;
+	int				tex_y;
 
-	step = 1.0 * img->height / draws.lineHeight;
-	texPos = (draws.drawStart - vars->height / 2 + draws.lineHeight / 2) * step;
+	step = 1.0 * img->height / draws.line_h;
+	tex_pos = (draws.draw_start - vars->height / 2 + draws.line_h / 2) * step;
 	i = 0;
-	img->p_height = draws.drawEnd - draws.drawStart;
-	while (i < draws.drawStart)
+	img->p_height = draws.draw_end - draws.draw_start;
+	while (i < draws.draw_start)
 		my_mlx_pixel_put(&vars->img_frame, h, i++, vars->map.color_ceil);
-	i = draws.drawEnd;
+	i = draws.draw_end;
 	while (i < vars->height)
 		my_mlx_pixel_put(&vars->img_frame, h, i++, vars->map.color_floor);
 	i = 0;
-	while (i <= draws.drawEnd - draws.drawStart)
+	while (i <= draws.draw_end - draws.draw_start)
 	{
-		texY = (int)texPos;
-		texPos += step;
-		src = (unsigned char *)get_pixel(img, draws.texX, texY);
-		my_mlx_pixel_put(&vars->img_frame, h, i + draws.drawStart,
+		tex_y = (int)tex_pos;
+		tex_pos += step;
+		src = (unsigned char *)get_pixel(img, draws.tex_x, tex_y);
+		my_mlx_pixel_put(&vars->img_frame, h, i + draws.draw_start,
 			create_rgb(src[2], src[1], src[0]));
 		++i;
 	}

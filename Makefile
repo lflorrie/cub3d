@@ -11,6 +11,7 @@ SRC = hero_parser.c \
 		proc_keys.c \
 		proc_r.c \
 		proc_wasd.c \
+		raycast_utils.c \
 		raycasting.c \
  		show_line.c \
 		sprite.c \
