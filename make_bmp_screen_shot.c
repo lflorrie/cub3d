@@ -15,9 +15,9 @@
 
 t_bit_map_inf	get_bit_info(int w, int h)
 {
-	t_bit_map_inf bih;
+	t_bit_map_inf	bih;
 
-	bih.bi_size = sizeof(t_bit_map_inf);
+	bih.bi_size = 40;
 	bih.bi_width = w;
 	bih.bi_height = h;
 	bih.bi_planes = 1;
@@ -33,14 +33,15 @@ t_bit_map_inf	get_bit_info(int w, int h)
 
 t_bit_map	get_bit_file(t_bit_map_inf bih)
 {
-	t_bit_map bfh;
+	t_bit_map	bfh;
 
 	bfh.bf_type = 0x4D42;
 	bfh.bf_reserved1 = 0;
 	bfh.bf_reserved2 = 0;
-	bfh.bf_size = sizeof(t_bit_map) + sizeof(t_bit_map_inf) +
-		bih.bi_width * bih.bi_height * 3;
-	bfh.bf_off_bits = sizeof(t_bit_map) + bih.bi_size;
+	bfh.bf_size = 14 + 40
+		+ bih.bi_width * bih.bi_height * 3;
+	bfh.bf_off_bits = 14 + bih.bi_size;
+	bfh.bf_n = 0;
 	return (bfh);
 }
 
@@ -48,27 +49,25 @@ void	screen_shot(t_vars *vars)
 {
 	t_bit_map_inf	bih;
 	t_bit_map		bfh;
+	FILE			*f;
+	int				i;
+	int				j;
 
-	bih = get_bit_info(vars->width, vars->height);
+	f = fopen("test.bmp", "w+");
+	bih = get_bit_info(vars->map.screen_width, vars->map.screen_height);
 	bfh = get_bit_file(bih);
-	FILE *f;
-	f = fopen("test.bmp","w+");
-
-	fwrite(&bfh, sizeof(t_bit_map), 1, f);
-	fwrite(&bih, sizeof(t_bit_map_inf), 1, f);
-
-	unsigned char *s;
-
-
-	int i,j;
-
-	for(i = 0; i < bih.bi_height; i++)
+	fwrite(&bfh.bf_type, 14, 1, f);
+	fwrite(&bih, 40, 1, f);
+	i = bih.bi_height - 1;
+	while (i > 0)
 	{
-		for(j = 0; j < bih.bi_width; j++)
+		j = 0;
+		while (j < bih.bi_width)
 		{
-			s = (unsigned char *)get_pixel(&vars->img_frame, i, j);
-			fwrite(s, 3, 1, f);
+			fwrite((unsigned char *)get_pixel(&vars->img_frame, j, i), 3, 1, f);
+			++j;
 		}
+		--i;
 	}
 	fclose(f);
 }

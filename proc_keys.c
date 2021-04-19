@@ -50,6 +50,5 @@ void	proc_key_esc(t_vars *vars)
 {
 	mlx_destroy_window(vars->mlx, vars->win);
 	ft_free_map(&vars->map);
-	//mlx_destroy_image(vars-1>mlx, &vars->img_frame);
 	exit(0);
 }

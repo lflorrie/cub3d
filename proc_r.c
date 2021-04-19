@@ -35,5 +35,7 @@ int	proc_r(char *line, t_map *map)
 		return (1);
 	}
 	free(temp);
+	map->screen_width = map->width;
+	map->screen_height = map->height;
 	return (0);
 }

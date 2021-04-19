@@ -38,7 +38,5 @@ void	raycasting(t_vars *vars, t_map *map)
 		p_buffer[x++] = draws.perp_wall_dist;
 	}
 	sprite_raycast(vars, p_buffer);
-	screen_shot(vars);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img_frame.img, 0, 0);
 	free(p_buffer);
 }
