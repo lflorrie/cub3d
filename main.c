@@ -52,11 +52,7 @@ void	init_hero_and_text(t_vars *vars)
 
 void	main_loop(t_vars vars, int argc, char *errors)
 {
-	if (ft_strlen(errors) != 0)
-	{
-		printf("%s", errors);
-		exit (1);
-	}
+	init_hero_and_text(&vars);
 	if (argc == 2)
 	{
 		init_window(&vars, vars.map.width, vars.map.height);
@@ -89,18 +85,20 @@ int	main(int argc, char **argv)
 	{
 		if (argc == 3)
 			if (ft_strncmp(argv[2], "--save", 7))
-				return (0);
+				exit(1 + 0 * printf("Error!\nWrong arguments\n"));
+		if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 5))
+			exit(1 + 0 * printf("Error!\nFile must be .cub\n"));
 		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
-		{
-			printf("Error!\nFile not exist.\n");
-			exit(1);
-		}
+			exit(1 + 0 * printf("Error!\nFile not exist.\n"));
 		vars.mlx = mlx_init();
 		errors = parser(vars.mlx, fd, &vars.map);
 		close(fd);
-		init_hero_and_text(&vars);
+		if (ft_strlen(errors) != 0)
+			exit(1 + 0 * printf("%s", errors));
 		main_loop(vars, argc, errors);
 	}
+	else
+		printf("Error!\nWrong arguments\n");
 	return (0);
 }

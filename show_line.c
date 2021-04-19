@@ -20,7 +20,7 @@ void	show_line(t_vars *vars, t_image *img, t_draw draws, int h)
 	unsigned char	*src;
 	int				tex_y;
 
-	step = 1.0 * img->height / draws.line_h;
+	step = 1.0 * (img->height - 1) / draws.line_h;
 	tex_pos = (draws.draw_start - vars->height / 2 + draws.line_h / 2) * step;
 	i = 0;
 	img->p_height = draws.draw_end - draws.draw_start;

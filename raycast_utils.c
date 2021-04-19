@@ -100,12 +100,12 @@ void	draw_walls(t_vars *vars, t_draw *draws, int x)
 	}
 	if (vars->hero.ray_dir_y < 0 && draws->side == 1)
 	{
-		draws->tex_x = calc_texture(vars, draws, vars->img_w.width);
-		show_line(vars, &vars->img_w, *draws, x);
+		draws->tex_x = calc_texture(vars, draws, vars->img_e.width);
+		show_line(vars, &vars->img_e, *draws, x);
 	}
 	if (vars->hero.ray_dir_y > 0 && draws->side == 1)
 	{
-		draws->tex_x = calc_texture(vars, draws, vars->img_e.width);
-		show_line(vars, &vars->img_e, *draws, x);
+		draws->tex_x = calc_texture(vars, draws, vars->img_w.width);
+		show_line(vars, &vars->img_w, *draws, x);
 	}
 }

@@ -130,23 +130,20 @@ typedef struct s_bit_map_inf
 	unsigned int	bi_clr_important;
 }					t_bit_map_inf;
 
-# define KEY_RIGHT_ARROW 65363
-# define KEY_LEFT_ARROW 65361
-# define KEY_W 119
-# define KEY_S 115
-# define KEY_A 97
-# define KEY_D 100
-# define KEY_ESC 65307
-
-/*
-* # define KEY_RIGHT_ARROW 124
-* # define KEY_LEFT_ARROW 123
-* # define KEY_W 13
-* # define KEY_S 1
-* # define KEY_A 0
-* # define KEY_D 2
-* # define KEY_ESC 53
-*/
+// # define KEY_RIGHT_ARROW 65363
+// # define KEY_LEFT_ARROW 65361
+// # define KEY_W 119
+// # define KEY_S 115
+// # define KEY_A 97
+// # define KEY_D 100
+// # define KEY_ESC 65307
+# define KEY_RIGHT_ARROW 124
+# define KEY_LEFT_ARROW 123
+# define KEY_W 13
+# define KEY_S 1
+# define KEY_A 0
+# define KEY_D 2
+# define KEY_ESC 53
 
 void			my_mlx_pixel_put(t_image *data, int x, int y, int color);
 char			*get_pixel(t_image *data, int x, int y);

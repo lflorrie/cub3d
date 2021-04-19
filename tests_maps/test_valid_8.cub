@@ -1,9 +1,9 @@
-R 800 600
-EA ./resources/block6.xpm
-NO ./resources/block6.xpm
-WE ./resources/block6.xpm
-S ./resources/block6.xpm
-SO ./resources/block6.xpm
+R 3000 3000
+EA ./resources/text5.xpm
+NO ./resources/text5.xpm
+WE ./resources/text5.xpm
+S ./resources/text5.xpm
+SO ./resources/text5.xpm
 F 15,150,30
 C 55,30,150
 1111111

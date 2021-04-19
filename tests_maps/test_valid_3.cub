@@ -1,9 +1,9 @@
 R 1920 1080
-EA ./resources/block6.xpm
-NO ./resources/block6.xpm
-WE ./resources/block6.xpm
+EA ./resources/text5.xpm
+NO ./resources/text6.xpm
+WE ./resources/text7.xpm
 S ./resources/2.xpm
-SO ./resources/block6.xpm
+SO ./resources/text8.xpm
 F 100,180,160
 C 150,150,222
 11111111111111111111111111111111

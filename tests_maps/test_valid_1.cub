@@ -1,8 +1,8 @@
 R 800 600
-NO ./resources/block5.xpm
-SO ./resources/block3.xpm
-EA ./resources/block6.xpm
-WE ./resources/block4.xpm
+NO ./resources/text1.xpm
+SO ./resources/text2.xpm
+EA ./resources/text3.xpm
+WE ./resources/text4.xpm
 S ./resources/Medved-2.xpm
 F 220,100,0
 C 225,30,0

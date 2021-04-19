@@ -1,12 +1,6 @@
-INC=/usr/include
-
-INCLIB=$(INC)/mlx_linux/lib
-
 CC=gcc
-
-CFLAGS= -I$(INC) -O3 -Imlx_linux/ -Wall -Wextra -Werror
-
-NAME= mlx-test
+CFLAGS =-Wall -Wextra -Werror
+NAME= cub3D
 SRC = hero_parser.c \
 		init_mlx_func.c \
 		main.c \
@@ -25,19 +19,18 @@ SRC = hero_parser.c \
 		sprite_array.c \
 		make_bmp_screen_shot.c \
 		validate_map.c
-
-
+	
 OBJ = $(SRC:.c=.o)
 
 %.o:%.c
-	$(CC) -Imlx_linux -Ilibft -c $< -o $@
-	
+	$(CC) -Imlx -Ilibft -c $< -o $@
 
 all:$(NAME)
 
-$(NAME)	:$(OBJ)
+
+$(NAME):$(OBJ)
 	$(MAKE) bonus -C libft/
-	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx_linux/ -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd -Wall -Wextra -Werror
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJ) -Llibft/ -lft -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 clean:
 	rm -rf $(OBJ) && $(MAKE) clean -C libft/
@@ -45,6 +38,8 @@ clean:
 fclean: clean
 	rm -rf $(NAME) && $(MAKE) fclean -C libft/
 
-re	: fclean all
+bonus:$(NAME)
+
+re: fclean all
 
 .PHONY: all clean fclean re

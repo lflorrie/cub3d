@@ -49,25 +49,25 @@ void	screen_shot(t_vars *vars)
 {
 	t_bit_map_inf	bih;
 	t_bit_map		bfh;
-	FILE			*f;
+	int				f;
 	int				i;
 	int				j;
 
-	f = fopen("test.bmp", "w+");
+	f = open("screen_shot.bmp", O_WRONLY);
 	bih = get_bit_info(vars->map.screen_width, vars->map.screen_height);
 	bfh = get_bit_file(bih);
-	fwrite(&bfh.bf_type, 14, 1, f);
-	fwrite(&bih, 40, 1, f);
-	i = bih.bi_height - 1;
+	write(f, &bfh.bf_type, 14);
+	write(f, &bih, 40);
+	i = bih.bi_height;
 	while (i > 0)
 	{
+		--i;
 		j = 0;
 		while (j < bih.bi_width)
 		{
-			fwrite((unsigned char *)get_pixel(&vars->img_frame, j, i), 3, 1, f);
+			write(f, (unsigned char *)get_pixel(&vars->img_frame, j, i), 3);
 			++j;
 		}
-		--i;
 	}
-	fclose(f);
+	close(f);
 }

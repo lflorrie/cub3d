@@ -1,10 +1,10 @@
 R 800 600
 R 1920 1080
-EA ./resources/block6.xpm
-NO ./resources/block6.xpm
-WE ./resources/block6.xpm
-S ./resources/block6.xpm
-SO ./resources/block6.xpm
+EA ./resources/text1.xpm
+NO ./resources/text1.xpm
+WE ./resources/text1.xpm
+S ./resources/text1.xpm
+SO ./resources/text1.xpm
 F 15,150,30
 C 55,30,150
 1111111
