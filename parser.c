@@ -62,7 +62,7 @@ char	*pars(char *iter, t_map *map)
 		if (proc_texture(iter, map))
 			return ("Error\nProblems with texture\n");
 	}
-	else
+	else if (*iter != '\0')
 		return ("Error\nNot valid flag\n");
 	return (NULL);
 }

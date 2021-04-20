@@ -53,7 +53,8 @@ void	screen_shot(t_vars *vars)
 	int				i;
 	int				j;
 
-	f = open("screen_shot.bmp", O_WRONLY);
+	f = open("screen_shot.bmp", O_WRONLY | O_CREAT, S_IRUSR
+			| S_IROTH | S_IWUSR);
 	bih = get_bit_info(vars->map.screen_width, vars->map.screen_height);
 	bfh = get_bit_file(bih);
 	write(f, &bfh.bf_type, 14);

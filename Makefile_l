@@ -6,7 +6,7 @@ CC=gcc
 
 CFLAGS= -I$(INC) -O3 -Imlx_linux/ -Wall -Wextra -Werror
 
-NAME= mlx-test
+NAME= cub3D
 SRC = hero_parser.c \
 		init_mlx_func.c \
 		main.c \
@@ -44,6 +44,8 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME) && $(MAKE) fclean -C libft/
+
+bonus:$(NAME)
 
 re	: fclean all
 
