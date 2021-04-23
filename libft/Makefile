@@ -62,8 +62,13 @@ BONUS = ft_lstnew.c \
 	ft_lstmap.c
 NAME = libft.a
 .PHONY:all clean fclean re bonus
+
 OBJ = $(SRC:.c=.o)
+
+DEP = $(SRC:.c=.d)
+
 OBJ_BONUS = $(BONUS:.c=.o) $(SRC:.c=.o)
+
 all: $(NAME)
 
 bonus:
@@ -74,9 +79,13 @@ $(NAME): $(OBJ)
 
 %.o:%.c
 	gcc $(FLAGS) -c $< -o $@
+	$(CC) -MM $(FLAGS) $< > $*.d
+
+-include $(OBJ:.o=.d)
 
 clean:
-	rm -rf $(OBJ) $(OBJ_BONUS)
+	rm -rf $(OBJ) $(OBJ_BONUS) $(DEP)
+
 fclean: clean
 	rm -rf $(NAME)
 

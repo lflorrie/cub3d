@@ -43,15 +43,14 @@ int	feel_rgb(char **words, int (*rgb)[3], char **line, char *iter)
 
 int	proc_fc(char *line, t_map *map)
 {
-	char	flag;
 	char	**words;
 	int		rgb[3];
 	char	*iter;
 
-	flag = *line;
+	iter = line;
 	++line;
-	if ((flag == 'F' && map->color_floor != -1)
-		|| (flag == 'C' && map->color_ceil != -1))
+	if ((*iter == 'F' && map->color_floor != -1)
+		|| (*iter == 'C' && map->color_ceil != -1))
 		return (1);
 	words = ft_split(line, ',');
 	if (!(words) || ft_count_words(line, ',') != 3)
@@ -62,9 +61,9 @@ int	proc_fc(char *line, t_map *map)
 		free(line);
 		return (1);
 	}
-	if (flag == 'F')
+	if (*iter == 'F')
 		map->color_floor = create_rgb(rgb[0], rgb[1], rgb[2]);
-	if (flag == 'C')
+	if (*iter == 'C')
 		map->color_ceil = create_rgb(rgb[0], rgb[1], rgb[2]);
 	ft_free_words(words);
 	return (0);

@@ -57,8 +57,6 @@ void	draw_sprite(t_vars *vars, t_draw_sprite dr_spr,
 					double *p_buffer)
 {
 	int				sprite_w;
-	int				d;
-	unsigned char	*src;
 
 	sprite_w = abs((int)(vars->height / (dr_spr.tr_y)));
 	dr_spr.draw_start_x = -sprite_w / 2 + dr_spr.sprite_screen_x;

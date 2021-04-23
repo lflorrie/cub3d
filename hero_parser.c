@@ -62,8 +62,8 @@ t_hero	get_hero(t_map map)
 	int		j;
 
 	hero = init_hero();
-	i = 0;
-	while (i < map.len_map)
+	i = -1;
+	while (++i < map.len_map)
 	{
 		j = 0;
 		while (map.map[i][j] != '\0')
@@ -71,13 +71,13 @@ t_hero	get_hero(t_map map)
 			if (map.map[i][j] == 'S' || map.map[i][j] == 'N' ||
 				map.map[i][j] == 'W' || map.map[i][j] == 'E')
 			{
+				if (hero.pos_x != 0 || hero.pos_y != 0)
+					return (hero);
 				hero.pos_x = i + 0.5;
 				hero.pos_y = j + 0.5;
-				break ;
 			}
 			++j;
 		}
-		++i;
 	}
 	set_plane_and_dir(&hero, map);
 	return (hero);

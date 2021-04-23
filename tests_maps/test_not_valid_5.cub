@@ -1,5 +1,4 @@
 R 800 600
-R 1920 1080
 EA ./resources/text1.xpm
 NO ./resources/text1.xpm
 WE ./resources/text1.xpm
@@ -11,5 +10,5 @@ C 55,30,150
 10011
 101    
 101
-10S11
+1N011
 1111111

@@ -4,10 +4,10 @@ SO ./resources/text2.xpm
 EA ./resources/text3.xpm
 WE ./resources/text4.xpm
 S ./resources/Medved-2.xpm
-F 220,100,0
+F 255,100,0
 C 225,30,0
 111111
 120021
-100N01
+100S01
 120021
 111111

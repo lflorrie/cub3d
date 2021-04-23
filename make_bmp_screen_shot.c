@@ -64,7 +64,7 @@ void	screen_shot(t_vars *vars)
 	{
 		--i;
 		j = 0;
-		while (j < bih.bi_width)
+		while (j < (int)bih.bi_width)
 		{
 			write(f, (unsigned char *)get_pixel(&vars->img_frame, j, i), 3);
 			++j;

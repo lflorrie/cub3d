@@ -12,6 +12,14 @@
 
 #include "my_cub_utils.h"
 
+void	overflow(int *h, int *w)
+{
+	if (*h == -1)
+		*h = 10000000;
+	if (*w == -1)
+		*w = 10000000;
+}
+
 int	proc_r(char *line, t_map *map)
 {
 	char	*temp;
@@ -29,6 +37,7 @@ int	proc_r(char *line, t_map *map)
 	map->height = ft_atoi(line);
 	while (ft_isdigit(*line))
 		++line;
+	overflow(&map->height, &map->width);
 	if (map->height <= 0 || map->width <= 0 || *line != '\0')
 	{
 		free(temp);

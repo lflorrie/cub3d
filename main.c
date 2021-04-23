@@ -50,10 +50,12 @@ void	init_hero_and_text(t_vars *vars)
 	vars->img_spr = init_image_from_file(vars->mlx, vars->map.pict_sprite);
 }
 
-void	main_loop(t_vars vars, int argc, char *errors)
+void	main_loop(t_vars vars, int argc)
 {
 	init_hero_and_text(&vars);
-	if (argc == 2)
+	if (vars.hero.speed_x == 0)
+		printf("Error!\nTwo hero on the map!\n");
+	else if (argc == 2)
 	{
 		init_window(&vars, vars.map.width, vars.map.height);
 		vars.img_frame = init_image(vars.mlx, vars.width, vars.height);
@@ -96,7 +98,7 @@ int	main(int argc, char **argv)
 		close(fd);
 		if (ft_strlen(errors) != 0)
 			exit(1 + 0 * printf("%s", errors));
-		main_loop(vars, argc, errors);
+		main_loop(vars, argc);
 	}
 	else
 		printf("Error!\nWrong arguments\n");
