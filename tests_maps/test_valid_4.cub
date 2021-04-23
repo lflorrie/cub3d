@@ -1,9 +1,9 @@
 R 1920 1080
-EA ./resources/text1.xpm
+EA ./resources/text2.xpm
 NO ./resources/text3.xpm
-WE ./resources/text5.xpm
-S ./resources/1_1.xpm
-SO ./resources/text7.xpm
+WE ./resources/text4.xpm
+S ./resources/Medved.xpm
+SO ./resources/text6.xpm
 F 15,150,30
 C 55,30,150
 11111111111111

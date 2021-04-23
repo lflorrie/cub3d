@@ -1,13 +1,18 @@
-R 800 600
+R 50000 50000
 NO ./resources/text1.xpm
 SO ./resources/text2.xpm
 EA ./resources/text3.xpm
 WE ./resources/text4.xpm
 S ./resources/Medved-2.xpm
-F 255,100,0
-C 225,30,0
-111111
-120021
-100S01
-120021
-111111
+F 20, 160, 40
+C 80,30,180
+11111111
+10000201
+10000001
+100S0001
+10000001
+10020001
+10000001
+10020001
+10200201
+11111111

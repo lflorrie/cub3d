@@ -1,9 +1,9 @@
 R 800 600
-EA ./resources/text5.xpm
-NO ./resources/text5.xpm
-WE ./resources/text5.xpm
-S ./resources/1.xpm
-SO ./resources/text5.xpm
+EA ./resources/text3.xpm
+NO ./resources/text4.xpm
+WE ./resources/text6.xpm
+S ./resources/Medved.xpm
+SO ./resources/text2.xpm
 F 0,100,0
 C 20,30,150
 11111111111

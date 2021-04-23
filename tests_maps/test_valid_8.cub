@@ -1,13 +1,13 @@
 R 3000 3000
-EA ./resources/text5.xpm
-NO ./resources/text5.xpm
-WE ./resources/text5.xpm
-S ./resources/text5.xpm
-SO ./resources/text5.xpm
+EA ./resources/text3.xpm
+NO ./resources/text2.xpm
+WE ./resources/text6.xpm
+S ./resources/Medved.xpm
+SO ./resources/text4.xpm
 F 15,150,30
 C 55,30,150
 1111111
-10011
+12011
 101    
 101
 10S11

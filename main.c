@@ -53,8 +53,8 @@ void	init_hero_and_text(t_vars *vars)
 void	main_loop(t_vars vars, int argc)
 {
 	init_hero_and_text(&vars);
-	if (vars.hero.speed_x == 0)
-		printf("Error!\nTwo hero on the map!\n");
+	if (vars.hero.speed_x == 0 || vars.hero.pos_x == 0)
+		printf("Error!\nProblem with hero!\n");
 	else if (argc == 2)
 	{
 		init_window(&vars, vars.map.width, vars.map.height);

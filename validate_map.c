@@ -20,7 +20,9 @@ int	valid_around_space(char **arr, int i, int j, int len)
 		return (1);
 	if (i == len - 1)
 		return (1);
-	if ((int)ft_strlen(arr[i + 1]) < j || (int)ft_strlen(arr[i - 1]) < j)
+	if ((int)ft_strlen(arr[i + 1]) <= j || (int)ft_strlen(arr[i - 1]) <= j)
+		return (1);
+	if ((int)ft_strlen(arr[i]) - 1 <= j)
 		return (1);
 	if (arr[i - 1][j] == ' ')
 		return (1);
