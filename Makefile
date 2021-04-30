@@ -1,5 +1,11 @@
+INC=
+
+INCLIB=$(INC)/mlx_linux/lib
+
 CC=gcc
-CFLAGS =-Wall -Wextra -Werror
+
+CFLAGS= -Wall -Wextra -Werror
+
 NAME= cub3D
 SRC = hero_parser.c \
 		init_mlx_func.c \
@@ -19,32 +25,33 @@ SRC = hero_parser.c \
 		sprite_array.c \
 		make_bmp_screen_shot.c \
 		validate_map.c
-	
+
+
 OBJ = $(SRC:.c=.o)
+
 DEP = $(SRC:.c=.d)
+
 
 all:$(NAME)
 
+%.o:%.c
+	$(CC) -c $(CFLAGS) -Imlx_linux -Ilibft $< -o $@
+	$(CC) -MM $(CFLAGS) -Imlx_linux -Ilibft $< > $*.d
+
 -include $(OBJ:.o=.d)
 
-%.o:%.c
-	$(CC) -c $(CFLAGS) -Imlx -Ilibft  $< -o $@
-	$(CC) -MM $(CFLAGS) -Imlx -Ilibft $< > $*.d
-
-$(NAME):$(OBJ)
-	$(MAKE) all -C mlx/
-	cp mlx/libmlx.dylib .
+$(NAME)	:$(OBJ)
 	$(MAKE) bonus -C libft/
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJ) -Llibft/ -lft -Lmlx -lmlx -framework OpenGL -framework AppKit
+	$(CC) -o $(NAME) $(OBJ) -Llibft/ -lft -Lmlx_linux/ -lmlx -L$(INCLIB) -lXext -lX11 -lm -lbsd $(CFLAGS)
 
 clean:
-	rm -rf $(OBJ) $(DEP) && $(MAKE) clean -C libft/ && $(MAKE) clean -C mlx/
+	rm -rf $(OBJ) $(DEP) && $(MAKE) clean -C libft/
 
 fclean: clean
-	rm -rf $(NAME) && $(MAKE) fclean -C libft/ && rm -f mlx/libmlx.dylib
+	rm -rf $(NAME) && $(MAKE) fclean -C libft/
 
 bonus:$(NAME)
 
-re: fclean all
+re	: fclean all
 
 .PHONY: all clean fclean re
