@@ -10,3 +10,8 @@ To launch on Linux use
 bash linux.sh && make && ./cub3D tests_maps/test_valid_3.cub
 ```
 You can make your own map or use the existing ones in the folder tests_maps.
+If you wanna to make screenshot add flag --save:
+```
+./cub3D tests_maps/test_valid_3.cub --save
+```
+Screenshot will be saved in the root project.
